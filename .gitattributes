@@ -1,0 +1,20 @@
+# Metin dosyalarında satır sonlarını normalize et
+* text=auto
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.xml  text eol=lf
+*.md   text eol=lf
+
+# İkili dosyalar
+*.zip   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.mp4   binary
+
+# Büyük dosyalar için Git LFS (git lfs install gerektirir).
+# Storyline projelerini de saklayacaksan aşağıdaki satırların başındaki # işaretini kaldır.
+# *.story filter=lfs diff=lfs merge=lfs -text
+# *.mp4   filter=lfs diff=lfs merge=lfs -text

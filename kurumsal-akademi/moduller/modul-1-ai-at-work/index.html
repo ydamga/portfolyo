@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr" data-hareket="acik">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>İş Başında Yapay Zekâ: Daha İyi Prompt, Daha Güvenilir Sonuç</title>
+  <meta name="description" content="Üretken yapay zekâyı etkili, güvenli ve eleştirel kullanma becerisi üzerine animasyonlu mikro öğrenme modülü.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="atla" href="#panel">Etkinliğe geç</a>
+
+  <header class="ust">
+    <div class="kap">
+      <div class="marka">
+        <span class="marka-isaret" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.1 5.6 5.6 2.1-5.6 2.1L12 18l-2.1-5.7L4.3 10.2l5.6-2.1L12 2.5z" fill="#fff"/><circle cx="19" cy="18" r="2.3" fill="#ffc233"/><circle cx="5.5" cy="18.5" r="1.4" fill="#6ff0d4"/></svg>
+        </span>
+        <div>
+          <h1>İş Başında Yapay Zekâ</h1>
+          <p>Daha İyi Prompt, Daha Güvenilir Sonuç</p>
+        </div>
+      </div>
+      <div class="araclar" role="group" aria-label="Oynatma araçları">
+        <button type="button" class="arac" id="atla-anim" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l9 7-9 7V5zM18 5v14"/></svg>
+          <span>Animasyonu atla</span>
+        </button>
+        <button type="button" class="arac" id="yeniden">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+          <span>Yeniden oynat</span>
+        </button>
+        <button type="button" class="arac" id="hareket" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14M18 5v14"/></svg>
+          <span>Animasyonu azalt</span>
+        </button>
+        <!-- Ses düğmesi: assets/audio/ içinde ses dosyası olmadığı için gizlidir (bkz. app.js SES_VAR). -->
+        <button type="button" class="arac" id="ses" aria-pressed="false" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM17 8a5 5 0 0 1 0 8"/></svg>
+          <span id="ses-yazi">Sesi aç</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="kap ilerleme">
+    <div class="ilerleme-baslik"><span id="sahne-no">Sahne 1 / 7</span><span id="yuzde">%0 tamamlandı</span></div>
+    <div class="cubuk" id="cubuk" role="progressbar" aria-label="Modül ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="cubuk-dolgu" id="cubuk-dolgu"></span></div>
+    <ol class="noktalar" id="noktalar" aria-hidden="true"></ol>
+  </div>
+
+  <main class="kap ana">
+    <section class="sahne-kutu" aria-label="Animasyonlu sahne">
+      <div class="sahne-ic">
+        <div id="sahne"></div>
+        <div class="balonlar" id="balonlar" role="log" aria-live="polite" aria-label="Konuşma balonları"></div>
+      </div>
+      <div class="sahne-alt">
+        <span id="sahne-ad"></span>
+        <details>
+          <summary>Diyalog metni</summary>
+          <ol class="transkript" id="transkript"></ol>
+        </details>
+      </div>
+    </section>
+
+    <section class="panel" id="panel" tabindex="-1" aria-labelledby="ekran-baslik">
+      <h2 id="ekran-baslik"></h2>
+      <p class="hedef" id="hedef"></p>
+      <div id="icerik">
+        <div id="akis" class="bolum"></div>
+        <div id="etkilesim" class="bolum" hidden></div>
+        <div id="geribildirim" aria-live="polite"></div>
+        <div id="ekstra"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="alt">
+    <div class="kap">
+      <button type="button" class="dugme ikincil" id="geri">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Önceki
+      </button>
+      <div class="ipucu" id="ipucu" role="status"></div>
+      <button type="button" class="dugme" id="ileri">Sonraki
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </footer>
+  <p class="klavye">Klavye: Tab ile gezin, Enter ya da Boşluk ile seçin; Alt + ← / Alt + → sahne değiştirir.</p>
+
+  <script src="js/icerik.js"></script>
+  <script src="js/karakterler.js"></script>
+  <script src="js/scorm.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yasin Damga: Kurumsal Öğrenme Portfolyosu</title>
+  <meta name="description" content="Kurumsal öğrenme portfolyosu: dört iş problemi için dört mikro öğrenme modülü, her biri çevrimdışı çalışan bir SCORM 1.2 paketi.">
+  <style>
+    /* Her modül kendi renk alanıyla bir bölümdür; renkler modüllerin kendi arayüzlerinden alındı. */
+    :root {
+      --kagit: #f4f3ef;
+      --murekkep: #12203f;
+      --vurgu: #2456d6;
+
+      --m1-zemin: #ffc233; --m1-yazi: #1b2a4e; --m1-dugme: #1b2a4e; --m1-dugme-yazi: #ffc233;
+      --m2-zemin: #1c56a8; --m2-yazi: #ffffff; --m2-dugme: #ffffff; --m2-dugme-yazi: #0a2243;
+      --m3-zemin: #dcebe1; --m3-yazi: #123d24; --m3-dugme: #1f6f3f; --m3-dugme-yazi: #ffffff;
+      --m4-zemin: #0f1830; --m4-yazi: #ffffff; --m4-dugme: #7ff0ff; --m4-dugme-yazi: #0f1830;
+      --beyaz: #ffffff;
+
+      --kenar: clamp(16px, 2.4vw, 32px);
+      --bolum: clamp(96px, 12vw, 200px);
+      --dev: clamp(2.75rem, 6.2vw, 6rem);
+      --buyuk: clamp(1.25rem, 1.6vw, 1.5rem);
+      --metin: clamp(1rem, 1.15vw, 1.125rem);
+      --kucuk: .9375rem;
+      --hiz: cubic-bezier(.2, .7, .2, 1);
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0; background: var(--kagit); color: var(--murekkep);
+      font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--metin); line-height: 1.55;
+    }
+    h1, h2, h3 { font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .95; margin: 0; text-wrap: balance; }
+    p { margin: 0; }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; height: auto; }
+    :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+    .sar { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 var(--kenar); }
+    .izgara { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 40px); }
+    .atla { position: absolute; left: -999px; top: 8px; z-index: 20; background: var(--murekkep); color: #fff; padding: 10px 14px; }
+    .atla:focus { left: 8px; }
+
+    /* Üst çubuk: düz, bulunduğu bölümün rengini alır */
+    .ust { position: sticky; top: 0; z-index: 10; background: var(--ust-zemin, var(--kagit)); color: var(--ust-yazi, var(--murekkep)); transition: background-color .45s var(--hiz), color .45s var(--hiz); }
+    .ust .sar { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+    .marka { font-weight: 800; font-size: 1.0625rem; text-decoration: none; letter-spacing: -.01em; margin-right: auto; }
+    .ust nav { display: flex; gap: 22px; }
+    .ust nav a { text-decoration: none; font-size: var(--kucuk); font-weight: 600; }
+    .ust nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    /* Düğmeler: düz, tam yuvarlak */
+    .dugme { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 0; font: inherit; font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer; background: var(--d-zemin, var(--murekkep)); color: var(--d-yazi, #fff); transition: transform .18s var(--hiz), opacity .18s; }
+    .dugme:hover { transform: translateY(-2px); }
+    .dugme:active { transform: translateY(1px) scale(.98); }
+    .dugme.ikincil { background: transparent; color: inherit; padding: 0 6px; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+    .dugme.ikincil:hover { text-decoration-thickness: 3px; }
+    .dugme svg { width: 18px; height: 18px; transition: transform .18s var(--hiz); }
+    .dugme:hover svg { transform: translateX(3px); }
+    .eylemler { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+
+    /* Açılış */
+    .acilis { padding: clamp(48px, 7vw, 112px) 0 clamp(56px, 7vw, 112px); }
+    .acilis .izgara { align-items: end; row-gap: 48px; }
+    .acilis-metin { grid-column: 1 / span 5; }
+    .acilis h1 { font-size: clamp(3.25rem, 9vw, 9.25rem); line-height: .88; letter-spacing: -.05em; }
+    .acilis .alt { font-size: var(--buyuk); line-height: 1.4; max-width: 30ch; margin-top: 36px; }
+    .acilis .eylemler { margin-top: 36px; }
+    .acilis figure { grid-column: 6 / span 7; margin: 0; }
+    .acilis figure img { width: 100%; aspect-ratio: 1220 / 640; object-fit: cover; }
+    figcaption { font-size: var(--kucuk); margin-top: 12px; }
+
+    /* Dört renk alanından oluşan içindekiler */
+    .icindekiler { list-style: none; margin: clamp(56px, 6vw, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .icindekiler a { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; min-height: 176px; padding: 22px 22px 20px; text-decoration: none; transition: transform .2s var(--hiz); }
+    .icindekiler a:hover { transform: translateY(-6px); }
+    .icindekiler strong { font-size: clamp(1.25rem, 1.8vw, 1.75rem); line-height: 1.1; letter-spacing: -.02em; }
+    .icindekiler span { font-size: var(--kucuk); }
+    .r1 { background: var(--m1-zemin); color: var(--m1-yazi); --d-zemin: var(--m1-dugme); --d-yazi: var(--m1-dugme-yazi); }
+    .r2 { background: var(--m2-zemin); color: var(--m2-yazi); --d-zemin: var(--m2-dugme); --d-yazi: var(--m2-dugme-yazi); }
+    .r3 { background: var(--m3-zemin); color: var(--m3-yazi); --d-zemin: var(--m3-dugme); --d-yazi: var(--m3-dugme-yazi); }
+    .r4 { background: var(--m4-zemin); color: var(--m4-yazi); --d-zemin: var(--m4-dugme); --d-yazi: var(--m4-dugme-yazi); }
+
+    /* Modül bölümleri */
+    .modul { min-height: min(90svh, 980px); padding: var(--bolum) 0; display: flex; align-items: center; }
+    .modul .izgara { align-items: center; row-gap: 48px; }
+    .modul h2 { font-size: var(--dev); }
+    .modul .ozet { font-size: var(--buyuk); line-height: 1.4; margin-top: 28px; max-width: 34ch; }
+    .modul dl { margin: 36px 0 0; display: grid; gap: 18px; }
+    .modul dt { font-weight: 700; }
+    .modul dd { margin: 2px 0 0; max-width: 52ch; }
+    .modul .yontem { margin: 28px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+    .modul .yontem li { padding: 6px 14px; border-radius: 999px; background: rgba(0, 0, 0, .08); font-size: var(--kucuk); font-weight: 600; }
+    .r2 .yontem li, .r4 .yontem li { background: rgba(255, 255, 255, .14); }
+    .modul .eylemler { margin-top: 40px; }
+    .metin-sol { grid-column: 1 / span 5; }
+    .gorsel-sag { grid-column: 6 / span 7; }
+    .gorsel-sol { grid-column: 1 / span 7; grid-row: 1; }
+    .metin-sag { grid-column: 8 / span 5; grid-row: 1; }
+
+    /* Ekran: görüntü ya da canlı modül */
+    .ekran { margin: 0; }
+    .ekran-cerceve { position: relative; overflow: hidden; background: #fff; }
+    .ekran-cerceve img { width: 100%; transform: scale(1.06); transform-origin: 50% 0; transition: transform 1.6s var(--hiz); }
+    .gorundu .ekran-cerceve img, .no-js .ekran-cerceve img { transform: none; }
+    .ekran-cerceve iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+    .ekran.canli .ekran-cerceve { height: min(78svh, 760px); }
+    .ekran.canli .ekran-cerceve img { visibility: hidden; }
+
+    /* Modül 3: üstte geniş başlık, altta görüntü ve iki sütun */
+    .r3 .izgara { align-items: start; }
+    .r3 .bas { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px; }
+    .r3 .bas .ozet { margin-top: 0; }
+    .r3 .ekran { grid-column: 1 / span 8; }
+    .r3 .yan { grid-column: 9 / span 4; }
+    .r3 .yan dl { margin-top: 0; }
+
+    /* Beceriler */
+    .beceriler { background: var(--beyaz); padding: var(--bolum) 0; }
+    .beceriler h2, .bakis h2 { font-size: clamp(2.5rem, 5.6vw, 5.5rem); }
+    .beceriler .giris { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px; }
+    .beceriler .giris p { font-size: var(--buyuk); line-height: 1.4; max-width: 40ch; }
+    .beceri-liste { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px clamp(24px, 4vw, 72px); }
+    .beceri-liste li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 8px 28px; }
+    .beceri-liste h3 { font-size: clamp(1.375rem, 2vw, 1.875rem); letter-spacing: -.025em; line-height: 1.1; }
+    .beceri-liste .nerede { display: block; margin-top: 10px; font-size: var(--kucuk); font-weight: 700; }
+
+    /* Bir bakışta (gerçek tablo) */
+    .bakis { padding: var(--bolum) 0; }
+    .bakis .ust-satir { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px; }
+    .bakis .ust-satir p { font-size: var(--buyuk); line-height: 1.4; max-width: 40ch; }
+    .tablo-kaydir { overflow-x: auto; margin-top: 56px; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td { text-align: left; vertical-align: top; padding: 18px 20px; }
+    thead th { font-size: var(--kucuk); background: var(--murekkep); color: #fff; }
+    tbody th { font-weight: 800; }
+    tbody tr { background: var(--beyaz); }
+    tbody tr:nth-child(even) { background: #fbfaf7; }
+    tbody td:first-child, tbody th:first-child { border-left: 10px solid var(--satir, transparent); }
+
+    /* Kapanış */
+    footer { background: var(--murekkep); color: #fff; padding: clamp(72px, 9vw, 140px) 0 40px; overflow: hidden; }
+
+    /* Giriş hareketi: yalnızca betik çalışırsa gizlenir */
+    .js .belir { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--hiz), transform .7s var(--hiz); transition-delay: calc(var(--sira, 0) * 80ms); }
+    .js .gorundu .belir, .js .belir.gorundu { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .js .belir { opacity: 1; transform: none; transition: none; }
+      .ekran-cerceve img { transform: none; transition: none; }
+      .dugme, .icindekiler a, .ust { transition: none; }
+      .dugme:hover, .icindekiler a:hover { transform: none; }
+    }
+
+    @media (max-width: 1000px) {
+      .acilis-metin, .acilis figure, .metin-sol, .gorsel-sag, .gorsel-sol, .metin-sag, .r3 .ekran, .r3 .yan { grid-column: 1 / -1; grid-row: auto; }
+      .icindekiler { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .modul { min-height: 0; }
+      .beceri-liste { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .ust nav { display: none; }
+      .icindekiler a { min-height: 132px; padding: 18px 16px; }
+      .beceri-liste li { grid-template-columns: 1fr; }
+      .ekran.canli .ekran-cerceve { height: 82svh; }
+      .dugme { min-height: 48px; padding: 0 22px; }
+    }
+  </style>
+</head>
+<body class="no-js">
+  <script>document.body.classList.remove("no-js"); document.documentElement.classList.add("js");</script>
+  <a class="atla" href="#modul-1">Modüllere geç</a>
+
+  <header class="ust" id="ust">
+    <div class="sar">
+      <a class="marka" href="#">Yasin Damga</a>
+      <nav aria-label="Sayfa içi">
+        <a href="#modul-1">Modüller</a>
+        <a href="#beceriler">Beceriler</a>
+        <a href="#bakis">Bir bakışta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="acilis" data-ust="kagit" aria-labelledby="baslik">
+      <div class="sar">
+        <div class="izgara">
+          <div class="acilis-metin">
+            <h1 id="baslik" class="belir">Yasin<br>Damga</h1>
+            <p class="alt belir" style="--sira:1">Kurumsal öğrenme portfolyosu: dört iş problemi için dört mikro öğrenme modülü, her biri çevrimdışı çalışan bir SCORM 1.2 paketi.</p>
+            <div class="eylemler belir" style="--sira:2">
+              <a class="dugme" href="#modul-1">Modülleri gez
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              </a>
+            </div>
+          </div>
+          <figure class="belir" style="--sira:2">
+            <img src="gorseller/modul-1-ai-at-work.webp" width="1220" height="640" alt="İş Başında Yapay Zekâ modülünün ilk sahnesi: Ece masasında düşünüyor, yanında yapay zekâ asistanı robot; sağda yöneticiden gelen mesaj ve asistanın genel çıktısı.">
+            <figcaption>Modül 1'in ilk sahnesi: Ece, yapay zekâ asistanına belirsiz bir istek yazmak üzere.</figcaption>
+          </figure>
+        </div>
+
+        <ol class="icindekiler" aria-label="Modüller">
+          <li class="belir" style="--sira:0"><a class="r1" href="#modul-1"><strong>İş Başında Yapay Zekâ</strong><span>Modül 1 · Animasyonlu senaryo</span></a></li>
+          <li class="belir" style="--sira:1"><a class="r2" href="#modul-2"><strong>Zor görüşme</strong><span>Modül 2 · Dallanan senaryo</span></a></li>
+          <li class="belir" style="--sira:2"><a class="r3" href="#modul-3"><strong>Excel'de eğitim KPI'ları</strong><span>Modül 3 · Veri ile problem çözme</span></a></li>
+          <li class="belir" style="--sira:3"><a class="r4" href="#modul-4"><strong>Güvenli yapay zekâ</strong><span>Modül 4 · Atölye ve vaka</span></a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="modul r1" id="modul-1" data-ust="m1" aria-labelledby="m1-baslik">
+      <div class="sar">
+        <div class="izgara">
+          <div class="metin-sol">
+            <h2 id="m1-baslik" class="belir">İş Başında Yapay Zekâ</h2>
+            <p class="ozet belir" style="--sira:1">Modül 1: Daha iyi prompt, daha güvenilir sonuç. Ece ve Mert'le yedi animasyonlu sahnede üretken yapay zekâyı etkili, güvenli ve eleştirel kullanmak.</p>
+            <dl class="belir" style="--sira:2">
+              <div><dt>Performans problemi</dt><dd>Çalışanlar yapay zekâya belirsiz istekler yazıyor, verilmemiş tarih ve yer uyduran çıktıyı doğrulamadan paylaşıyor, prompt'a çalışan bilgisi ekliyor.</dd></div>
+              <div><dt>Hedefler</dt><dd>Etkili prompt'un beş bileşenini belirlemek, geliştirilebilir prompt'u iyileştirmek, çıktıyı doğrulamak, gizli ve kişisel veri riskini tanımak.</dd></div>
+              <div><dt>Hedef kitle</dt><dd>Farklı departmanlardaki kurumsal profesyoneller.</dd></div>
+            </dl>
+            <ul class="yontem belir" style="--sira:3" aria-label="Yöntem"><li>SVG ile çizilmiş karakterler</li><li>Her sahnede bir karar</li><li>Azaltılabilir animasyon</li></ul>
+            <div class="eylemler belir" style="--sira:4">
+              <a class="dugme" href="moduller/modul-1-ai-at-work/index.html" data-dene="ekran-1">Burada dene</a>
+              <a class="dugme ikincil" href="moduller/modul-1-ai-at-work/index.html">Tam ekranda aç</a>
+            </div>
+          </div>
+          <figure class="ekran gorsel-sag belir" id="ekran-1" style="--sira:2">
+            <div class="ekran-cerceve"><img src="gorseller/modul-1-ai-at-work.webp" width="1220" height="640" loading="lazy" alt="İş Başında Yapay Zekâ modülü: Ece ve yapay zekâ asistanının bulunduğu ofis sahnesi ve karar paneli."></div>
+            <figcaption>Sahne 1 / 7: Belirsiz bir istek. Konuşma balonları sırayla gelir; karar verilmeden ilerlenmez.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="modul r2" id="modul-2" data-ust="m2" aria-labelledby="m2-baslik">
+      <div class="sar">
+        <div class="izgara">
+          <figure class="ekran gorsel-sol belir" id="ekran-2" style="--sira:2">
+            <div class="ekran-cerceve"><img src="gorseller/modul-2-zor-gorusme.webp" width="1440" height="838" loading="lazy" alt="Zor Görüşmeyi Yönetmek modülü: İK iş ortağı Selin avatarı, cam efektli konuşma panelleri, ilerleme halkası ve kazanılan beceriler listesi."></div>
+            <figcaption>Selin, katılımcıyı görüşme provasına hazırlıyor.</figcaption>
+          </figure>
+          <div class="metin-sag">
+            <h2 id="m2-baslik" class="belir">Zor görüşme</h2>
+            <p class="ozet belir" style="--sira:1">Modül 2: Zor görüşmeyi yönetmek. Yeni yöneticiler için avatarlı bir sahnede, cevaba göre dallanan bir performans görüşmesi.</p>
+            <dl class="belir" style="--sira:2">
+              <div><dt>Performans problemi</dt><dd>Yeni yöneticiler zor görüşmeden kaçınıyor ya da yargılayıcı konuşuyor; çalışan savunmaya geçiyor ve değişim olmuyor.</dd></div>
+              <div><dt>Hedefler</dt><dd>Durum-Davranış-Etki ile gözleme dayalı geri bildirim vermek, savunmayı yönetmek, görüşmeyi ortak plan ve takip tarihiyle kapatmak.</dd></div>
+              <div><dt>Hedef kitle</dt><dd>Yeni yöneticiler ve ekip liderleri.</dd></div>
+            </dl>
+            <ul class="yontem belir" style="--sira:3" aria-label="Yöntem"><li>Dallanan senaryo</li><li>Güven ve netlik göstergesi</li><li>Cam arayüz</li></ul>
+            <div class="eylemler belir" style="--sira:4">
+              <a class="dugme" href="moduller/modul-2-zor-gorusme/index.html" data-dene="ekran-2">Burada dene</a>
+              <a class="dugme ikincil" href="moduller/modul-2-zor-gorusme/index.html">Tam ekranda aç</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="modul r3" id="modul-3" data-ust="m3" aria-labelledby="m3-baslik">
+      <div class="sar">
+        <div class="izgara">
+          <div class="bas">
+            <h2 id="m3-baslik" class="belir">Excel'de eğitim KPI'ları</h2>
+            <p class="ozet belir" style="--sira:1">Modül 3: Ham tablodan yönetici özetine. Tamamlama oranı, ağırlıklı ortalama ve bir aksiyon önerisi.</p>
+          </div>
+          <figure class="ekran belir" id="ekran-3" style="--sira:2">
+            <div class="ekran-cerceve"><img src="gorseller/modul-3-kpi-analizi.webp" width="1100" height="730" loading="lazy" alt="Eğitim KPI modülü: eğitim direktörünün mesajı ve tamamlama oranı sütunu boş bırakılmış Excel görünümlü ham veri tablosu."></div>
+            <figcaption>Cuma sunumu için tek sayfalık özet isteniyor; tamamlama oranı sütunu boş.</figcaption>
+          </figure>
+          <div class="yan">
+            <dl class="belir" style="--sira:3">
+              <div><dt>Performans problemi</dt><dd>Eğitim ekipleri veriyi topluyor ama yönetici özetine dönüştüremiyor; ortalamalar yanlış alınıyor, düşük performanslı eğitim gözden kaçıyor.</dd></div>
+              <div><dt>Hedefler</dt><dd>Tamamlama oranını hesaplamak, basit ve ağırlıklı ortalamayı ayırt etmek, bulguyu aksiyona ve özete çevirmek.</dd></div>
+              <div><dt>Hedef kitle</dt><dd>İK, eğitim ve öğrenme-gelişim ekipleri.</dd></div>
+            </dl>
+            <ul class="yontem belir" style="--sira:4" aria-label="Yöntem"><li>Excel benzeri sayfa</li><li>Filtreli KPI panosu</li><li>Tutarlı veri seti</li></ul>
+            <div class="eylemler belir" style="--sira:5">
+              <a class="dugme" href="moduller/modul-3-kpi-analizi/index.html" data-dene="ekran-3">Burada dene</a>
+              <a class="dugme ikincil" href="moduller/modul-3-kpi-analizi/index.html">Tam ekranda aç</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="modul r4" id="modul-4" data-ust="m4" aria-labelledby="m4-baslik">
+      <div class="sar">
+        <div class="izgara">
+          <div class="metin-sol">
+            <h2 id="m4-baslik" class="belir">Güvenli yapay zekâ</h2>
+            <p class="ozet belir" style="--sira:1">Modül 4: Yapay zekâyı iş yerinde güvenle kullanmak. İzometrik sahneli bir oynatıcıda istem atölyesi, kaynakla doğrulama ve dört gizlilik vakası.</p>
+            <dl class="belir" style="--sira:2">
+              <div><dt>Performans problemi</dt><dd>Kurumsal belgeler yapay zekâya bağlamsız veriliyor; çıktı kaynak politikayla karşılaştırılmıyor, gizli veri araca yapıştırılıyor.</dd></div>
+              <div><dt>Hedefler</dt><dd>Atölyede kendi istemini kurmak, iddiaları "uyumlu, çelişiyor, kaynakta yok" diye ayırmak, paylaş, anonimleştir ya da paylaşma kararı vermek.</dd></div>
+              <div><dt>Hedef kitle</dt><dd>Farklı departmanlardaki kurumsal profesyoneller.</dd></div>
+            </dl>
+            <ul class="yontem belir" style="--sira:3" aria-label="Yöntem"><li>İstem atölyesi</li><li>Kaynakla doğrulama</li><li>Gizlilik vakaları</li></ul>
+            <div class="eylemler belir" style="--sira:4">
+              <a class="dugme" href="moduller/modul-4-yapay-zeka/index.html" data-dene="ekran-4">Burada dene</a>
+              <a class="dugme ikincil" href="moduller/modul-4-yapay-zeka/index.html">Tam ekranda aç</a>
+            </div>
+          </div>
+          <figure class="ekran gorsel-sag belir" id="ekran-4" style="--sira:2">
+            <div class="ekran-cerceve"><img src="gorseller/modul-4-yapay-zeka.webp" width="1120" height="868" loading="lazy" alt="Yapay Zekâyı Güvenle Kullanmak modülü: koyu zeminde izometrik platformda duran karakter ve belirsiz bir isteğe verilmiş yapay zekâ yanıtı."></div>
+            <figcaption>"Şu politikayı özetle." isteğine gelen genel kalan yanıt.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="beceriler" id="beceriler" data-ust="beyaz" aria-labelledby="beceri-baslik">
+      <div class="sar">
+          <div class="giris">
+            <h2 id="beceri-baslik" class="belir">Beceriler</h2>
+            <p class="belir" style="--sira:1">Her modül bir iş problemiyle başlar, yaparak öğretir ve hedeflere bağlı bir ölçmeyle biter. Bunun arkasındaki beceriler:</p>
+          </div>
+          <ul class="beceri-liste">
+            <li class="belir"><h3>Öğretim tasarımı</h3><p>Performans problemi, Bloom düzeyli hedefler, hedef-değerlendirme eşleştirmesi ve sahne sahne storyboard. <span class="nerede">Dört modülde, belgeleriyle</span></p></li>
+            <li class="belir"><h3>Animasyonlu karakter anlatımı</h3><p>Sıfırdan SVG ile çizilmiş karakterler, yedi ifade ve poz durumu, metin uzunluğuna göre zamanlanan konuşma balonları; hareket yalnızca mesajı taşır. <span class="nerede">Modül 1</span></p></li>
+            <li class="belir"><h3>Senaryo ve geri bildirim</h3><p>Cevaba göre dallanan görüşme, seçeneğe özel gerekçeli geri bildirim, karar verilmeden ilerlemeyen akış. <span class="nerede">Modül 1, 2 ve 4</span></p></li>
+            <li class="belir"><h3>Yapay zekâ okuryazarlığı</h3><p>Prompt bileşenleri, uydurma bilgiyi yakalama, kaynakla doğrulama, kişisel veriyi yer tutucuyla değiştirme. <span class="nerede">Modül 1 ve 4</span></p></li>
+            <li class="belir"><h3>Öğrenme analitiği</h3><p>Tamamlama oranı, ağırlıklı ortalama, filtreli KPI panosu ve kodla çizilen grafikler. <span class="nerede">Modül 3</span></p></li>
+            <li class="belir"><h3>SCORM 1.2 geliştirme</h3><p>API bulma, puan ve durum, kaldığı yerden devam, bozuk devam verisine karşı güvenli işleme, manifest doğrulayan paketleme betiği. <span class="nerede">Dört paket</span></p></li>
+            <li class="belir"><h3>Erişilebilirlik</h3><p>Klavye ile tam kullanım, görünür odak, ekran okuyucuya canlı duyurular, işletim sisteminin hareket azaltma tercihine uyum. <span class="nerede">Dört modül</span></p></li>
+          </ul>
+      </div>
+    </section>
+
+    <section class="bakis" id="bakis" data-ust="kagit" aria-labelledby="bakis-baslik">
+      <div class="sar">
+        <div class="ust-satir">
+          <h2 id="bakis-baslik" class="belir">Bir bakışta</h2>
+          <p class="belir" style="--sira:1">Dört farklı öğrenme yaklaşımı, tek çıta: yaklaşık 6–7 dakika, 5 soruluk değerlendirme, %80 geçme eşiği, internetsiz çalışma.</p>
+        </div>
+        <div class="tablo-kaydir belir" style="--sira:2">
+          <table>
+            <thead><tr><th scope="col">Modül</th><th scope="col">Yaklaşım</th><th scope="col">Ana etkileşim</th><th scope="col">Görsel kimlik</th></tr></thead>
+            <tbody>
+              <tr style="--satir: var(--m1-zemin)"><th scope="row">1. İş Başında Yapay Zekâ</th><td>Animasyonlu senaryo, karakterli anlatım</td><td>Prompt kurma, A/B çıktı karşılaştırma, uydurma bilgiyi doğrulama, veri karartma</td><td>Krem ofis sahnesi, 2D karakterler</td></tr>
+              <tr style="--satir: var(--m2-zemin)"><th scope="row">2. Zor Görüşmeyi Yönetmek</th><td>Vaka ve dallanan senaryo</td><td>Karakterle görüşme, Güven/Netlik göstergesi</td><td>Avatarlı sahne, cam efekti</td></tr>
+              <tr style="--satir: #2f8f5b"><th scope="row">3. Eğitim KPI'larını Excel'de Okumak</th><td>Veri odaklı problem çözme</td><td>Formül, filtreli pano, yönetici özeti</td><td>Beyaz ve yeşil, Excel ve pano</td></tr>
+              <tr style="--satir: var(--m4-zemin)"><th scope="row">4. Yapay Zekâyı Güvenle Kullanmak</th><td>Örnek karşılaştırma, atölye</td><td>İstem atölyesi, doğrulama, gizlilik vakaları</td><td>Koyu, izometrik, oynatıcı</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-ust="murekkep"></footer>
+
+  <script>
+    (function () {
+      // Giriş hareketi: bölüm görünür olunca parçaları sırayla getirir.
+      var bolumler = document.querySelectorAll("section, footer");
+      var azalt = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if ("IntersectionObserver" in window && !azalt) {
+        var gozcu = new IntersectionObserver(function (girdiler) {
+          girdiler.forEach(function (g) {
+            if (g.isIntersecting) { g.target.classList.add("gorundu"); gozcu.unobserve(g.target); }
+          });
+        }, { rootMargin: "0px 0px -12% 0px" });
+        bolumler.forEach(function (b) { gozcu.observe(b); });
+      } else {
+        bolumler.forEach(function (b) { b.classList.add("gorundu"); });
+      }
+
+      // Üst çubuk, altından geçen bölümün rengini alır.
+      var renkler = {
+        kagit: ["var(--kagit)", "var(--murekkep)"], beyaz: ["var(--beyaz)", "var(--murekkep)"], murekkep: ["var(--murekkep)", "#fff"],
+        m1: ["var(--m1-zemin)", "var(--m1-yazi)"], m2: ["var(--m2-zemin)", "var(--m2-yazi)"],
+        m3: ["var(--m3-zemin)", "var(--m3-yazi)"], m4: ["var(--m4-zemin)", "var(--m4-yazi)"]
+      };
+      var ust = document.getElementById("ust");
+      var alanlar = Array.prototype.slice.call(document.querySelectorAll("[data-ust]"));
+      var bekliyor = false;
+      function boya() {
+        bekliyor = false;
+        var cizgi = ust.getBoundingClientRect().bottom;
+        for (var i = alanlar.length - 1; i >= 0; i--) {
+          if (alanlar[i].getBoundingClientRect().top <= cizgi) {
+            var r = renkler[alanlar[i].getAttribute("data-ust")];
+            ust.style.setProperty("--ust-zemin", r[0]); ust.style.setProperty("--ust-yazi", r[1]);
+            return;
+          }
+        }
+        ust.style.removeProperty("--ust-zemin"); ust.style.removeProperty("--ust-yazi");
+      }
+      window.addEventListener("scroll", function () { if (!bekliyor) { bekliyor = true; requestAnimationFrame(boya); } }, { passive: true });
+      boya();
+
+      // "Burada dene": ekran görüntüsünün yerine modülün kendisini açar (LMS yokken modül çevrimdışı çalışır).
+      document.querySelectorAll("[data-dene]").forEach(function (dugme) {
+        dugme.addEventListener("click", function (olay) {
+          var ekran = document.getElementById(dugme.getAttribute("data-dene"));
+          if (!ekran) return;
+          olay.preventDefault();
+          var cerceve = ekran.querySelector(".ekran-cerceve");
+          var mevcut = cerceve.querySelector("iframe");
+          if (mevcut) {
+            mevcut.remove(); ekran.classList.remove("canli"); dugme.textContent = "Burada dene";
+            return;
+          }
+          var pencere = document.createElement("iframe");
+          pencere.src = dugme.getAttribute("href");
+          pencere.title = "Modül önizlemesi: " + ekran.closest("section").querySelector("h2").textContent;
+          cerceve.appendChild(pencere);
+          ekran.classList.add("canli");
+          dugme.textContent = "Önizlemeyi kapat";
+          ekran.scrollIntoView({ behavior: azalt ? "auto" : "smooth", block: "center" });
+          pencere.focus();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

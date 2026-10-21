@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modül 2: Zor Görüşmeyi Yönetmek</title>
+  <link rel="stylesheet" href="css/modul2.css">
+</head>
+<body>
+  <a class="skip" href="#sahne">İçeriğe geç</a>
+
+  <div class="kabuk">
+    <nav class="ray" aria-label="Modül adımları">
+      <div class="ray-logo" aria-hidden="true">KA</div>
+      <ol id="ray"></ol>
+    </nav>
+
+    <div class="ana">
+      <header class="ust">
+        <div>
+          <p class="modul-baslik">Zor Görüşmeyi Yönetmek</p>
+          <p class="modul-alt">Modül 2 · Behavioral &amp; Leadership · yaklaşık 6–7 dk</p>
+        </div>
+        <div class="kullanici">
+          <span>Hoş geldin,<br><strong id="kullanici-ad">Katılımcı</strong></span>
+          <span class="avatar-harf" id="kullanici-harf" aria-hidden="true">K</span>
+        </div>
+      </header>
+
+      <div class="icerik">
+        <main>
+          <h1 class="ekran-baslik" id="ekran-baslik" tabindex="-1"></h1>
+          <section class="sahne" id="sahne" tabindex="-1"></section>
+          <nav class="gezinme" aria-label="Modül gezinmesi">
+            <button class="dugme ikincil" id="geri" type="button">Geri</button>
+            <span class="ipucu" id="ipucu" role="status" aria-live="polite"></span>
+            <button class="dugme" id="ileri" type="button">İleri</button>
+          </nav>
+        </main>
+
+        <aside class="yan" aria-label="İlerleme ve beceriler">
+          <section class="kart-yan" id="metre-kart" hidden>
+            <h2>Görüşme göstergeleri</h2>
+            <div id="metreler"></div>
+          </section>
+          <section class="kart-yan">
+            <h2>İlerleme</h2>
+            <div class="halka" id="halka"></div>
+          </section>
+          <section class="kart-yan">
+            <h2>Kazanılan beceriler</h2>
+            <ul class="beceriler" id="beceriler"></ul>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="ortak/scorm-wrapper.js"></script>
+  <script src="js/gorsel.js"></script>
+  <script src="js/modul2.js"></script>
+</body>
+</html>
