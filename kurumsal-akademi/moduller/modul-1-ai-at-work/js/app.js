@@ -763,6 +763,7 @@
       oynuyorGoster();
     });
     el.ses.addEventListener("click", function () {
+      el.ses.classList.remove("ses-dikkat");
       if (ses.acik) { sesKapat(""); altGuncelle(); return; }
       ses.acik = true;
       sesDugme();

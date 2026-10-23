@@ -57,6 +57,18 @@ button { font: inherit; color: inherit; }
 .arac:hover { border-color: var(--mavi); }
 .arac[aria-pressed="true"] { background: var(--sari-acik); border-color: #e0a800; }
 .arac svg { width: 18px; height: 18px; flex: none; }
+/* Seslendirme: kapalıyken dolgulu ve nabızlı, açıkken diğer basılı araçlar gibi */
+.arac-ses { position: relative; background: var(--mavi); border-color: var(--mavi); color: #fff; }
+.arac-ses:hover { background: var(--mavi-koyu); border-color: var(--mavi-koyu); }
+.arac-ses .ses-acik-ikon, .arac-ses[aria-pressed="true"] .ses-kapali-ikon { display: none; }
+.arac-ses[aria-pressed="true"] .ses-acik-ikon { display: block; }
+.ses-durum { font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 2px 7px; border-radius: 99px; background: rgba(255, 255, 255, .22); }
+.ses-durum::before { content: "Kapalı"; }
+.arac-ses[aria-pressed="true"] { background: var(--sari-acik); border-color: #e0a800; color: var(--ink); }
+.arac-ses[aria-pressed="true"] .ses-durum { background: #e0a800; color: #fff; }
+.arac-ses[aria-pressed="true"] .ses-durum::before { content: "Açık"; }
+.ses-dikkat::after { content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none; animation: ses-nabiz 1.8s ease-out 6; }
+@keyframes ses-nabiz { from { box-shadow: 0 0 0 0 rgba(59, 91, 219, .55); } to { box-shadow: 0 0 0 12px rgba(59, 91, 219, 0); } }
 
 /* ---------- İlerleme ---------- */
 .ilerleme { padding: 8px 0 14px; }

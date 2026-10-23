@@ -22,6 +22,14 @@
         </div>
       </div>
       <div class="araclar" role="group" aria-label="Oynatma araçları">
+        <!-- Seslendirme düğmesi: assets/audio/ses-listesi.js içinde metinle eşleşen ses yoksa gizli kalır.
+             Kapalıyken dolgulu ve nabızlı görünür ki kullanıcı sesin açılabildiğini fark etsin. -->
+        <button type="button" class="arac arac-ses ses-dikkat" id="ses" aria-pressed="false" hidden>
+          <svg class="ses-kapali-ikon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM17 10l4 4M21 10l-4 4"/></svg>
+          <svg class="ses-acik-ikon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+          <span id="ses-yazi">Seslendirme</span>
+          <span class="ses-durum" aria-hidden="true"></span>
+        </button>
         <button type="button" class="arac" id="atla-anim" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l9 7-9 7V5zM18 5v14"/></svg>
           <span>Animasyonu atla</span>
@@ -33,11 +41,6 @@
         <button type="button" class="arac" id="hareket" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14M18 5v14"/></svg>
           <span>Animasyonu azalt</span>
-        </button>
-        <!-- Seslendirme düğmesi: assets/audio/ses-listesi.js içinde metinle eşleşen ses yoksa gizli kalır. -->
-        <button type="button" class="arac" id="ses" aria-pressed="false" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM17 8a5 5 0 0 1 0 8"/></svg>
-          <span id="ses-yazi">Seslendirme</span>
         </button>
       </div>
     </div>
