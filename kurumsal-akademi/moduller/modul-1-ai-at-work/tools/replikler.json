@@ -1,0 +1,170 @@
+[
+  {
+    "id": "s1-b0",
+    "sahne": "s1",
+    "kim": "yonetici",
+    "metin": "“Ece, işe yeni başlayanlar için bir eğitim duyurusu lazım. Öğleye kadar hazırlayabilir misin?”",
+    "h": "83659eae"
+  },
+  {
+    "id": "s1-b1",
+    "sahne": "s1",
+    "kim": "ece",
+    "metin": "Zamanım az. Yapay zekâ asistanından yardım isteyeyim.",
+    "h": "7e070dfc"
+  },
+  {
+    "id": "s1-b4",
+    "sahne": "s1",
+    "kim": "ece",
+    "metin": "Hmm… Kime, ne zaman, ne için? Bu metin işime yaramaz.",
+    "h": "7401f4b0"
+  },
+  {
+    "id": "s2-b0",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Ece, asistan zihnini okuyamaz. Ona beş şeyi söylersen sonuç değişir.",
+    "h": "205bf54b"
+  },
+  {
+    "id": "s2-b1",
+    "sahne": "s2",
+    "kim": "ece",
+    "metin": "Beş şey mi? Göster bakalım.",
+    "h": "d35de4c7"
+  },
+  {
+    "id": "s2-bl-rol",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Önce rol ve bağlam. Asistana “kim gibi” yanıt vermesi gerektiğini söyle.",
+    "h": "65dc15af"
+  },
+  {
+    "id": "s2-bl-gorev",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Görev: tam olarak ne yapmasını istediğini tek cümleyle yaz.",
+    "h": "f723ca93"
+  },
+  {
+    "id": "s2-bl-kitle",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Hedef kitle: metni kim okuyacak? Dil ve ton buna göre değişir.",
+    "h": "d9d62caf"
+  },
+  {
+    "id": "s2-bl-cikti",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Çıktı biçimi: başlık mı, madde mi, e-posta mı? Biçimi sen belirle.",
+    "h": "afc2ddb5"
+  },
+  {
+    "id": "s2-bl-kisit",
+    "sahne": "s2",
+    "kim": "mert",
+    "metin": "Kısıtlar: uzunluk, ton ve “bilmediğini uydurma” gibi sınırlar ver.",
+    "h": "07b0f3ab"
+  },
+  {
+    "id": "s2-bitis",
+    "sahne": "s2",
+    "kim": "ece",
+    "metin": "Anladım! Ne istediğimi açıkça söylemem gerekiyormuş.",
+    "h": "ee452c8b"
+  },
+  {
+    "id": "s3-b0",
+    "sahne": "s3",
+    "kim": "mert",
+    "metin": "Şimdi sıra sende. İnsan Kaynakları, yeni başlayanlar için bir eğitim duyurusu istiyor.",
+    "h": "9012410c"
+  },
+  {
+    "id": "s3-b1",
+    "sahne": "s3",
+    "kim": "mert",
+    "metin": "İki prompt var. Hangisini asistana gönderirdin?",
+    "h": "3195fae7"
+  },
+  {
+    "id": "s3-o0",
+    "sahne": "s3",
+    "kim": "mert",
+    "metin": "A'da rol, hedef kitle, biçim ve kısıt yok. Sonuç yine genel kalır.",
+    "h": "d72e34f1"
+  },
+  {
+    "id": "s3-o1",
+    "sahne": "s3",
+    "kim": "mert",
+    "metin": "B bağlamı, hedef kitleyi, biçimi ve kısıtları veriyor. Fark çıktıda görünüyor.",
+    "h": "c60fd5b7"
+  },
+  {
+    "id": "s4-b1",
+    "sahne": "s4",
+    "kim": "ece",
+    "metin": "Harika, duyuru hazır! Hemen herkese göndereyim.",
+    "h": "af72193e"
+  },
+  {
+    "id": "s4-b2",
+    "sahne": "s4",
+    "kim": "mert",
+    "metin": "Dur bir dakika! Bu tarihi, saati ve yeri sen mi verdin?",
+    "h": "c6e78668"
+  },
+  {
+    "id": "s4-b3",
+    "sahne": "s4",
+    "kim": "ece",
+    "metin": "Hayır… Asistan kendisi eklemiş gibi görünüyor.",
+    "h": "1265f53a"
+  },
+  {
+    "id": "s5-b0",
+    "sahne": "s5",
+    "kim": "ece",
+    "metin": "Duyuruyu kişiselleştirmek için çalışan bilgilerini de ekleyeyim mi?",
+    "h": "493c97ad"
+  },
+  {
+    "id": "s5-b2",
+    "sahne": "s5",
+    "kim": "mert",
+    "metin": "Bir dakika. Bu bilgileri nereye yazdığını biliyor musun?",
+    "h": "ad0a9a8a"
+  },
+  {
+    "id": "s6-b0",
+    "sahne": "s6",
+    "kim": "mert",
+    "metin": "Son tur! Beş kısa soru. Geçmek için en az 4 doğru gerekiyor.",
+    "h": "97a5ead3"
+  },
+  {
+    "id": "s7-b0",
+    "sahne": "s7",
+    "kim": "ece",
+    "metin": "Şimdi biliyorum: önce bağlamı ve görevi netleştireyim, çıktıyı ve kısıtları belirteyim.",
+    "h": "7973b10c"
+  },
+  {
+    "id": "s7-b2",
+    "sahne": "s7",
+    "kim": "ece",
+    "metin": "Çıktıyı kaynağından doğruladım. Metinde kişisel veri de yok.",
+    "h": "43d0d79a"
+  },
+  {
+    "id": "s7-b3",
+    "sahne": "s7",
+    "kim": "mert",
+    "metin": "Harika iş, Ece! Duyuruyu güvenle gönderebilirsin.",
+    "h": "0e2e5bbd"
+  }
+]

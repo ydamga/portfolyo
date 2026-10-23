@@ -1,4 +1,4 @@
-/* İş Başında Yapay Zekâ: stil dosyası. Dış font ve görsel yok. */
+/* AI at Work: stil dosyası. Dış font ve görsel yok. */
 :root {
   --ink: #1b2a4e;
   --soluk: #4b5878;
@@ -76,6 +76,7 @@ button { font: inherit; color: inherit; }
 .sahne-svg { display: block; width: 100%; height: auto; }
 .sahne-alt { padding: 10px 14px; border-top: 1px solid var(--cizgi); background: #fbfcff; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .85rem; color: var(--soluk); }
 .sahne-alt details { width: 100%; }
+.ses-not { width: 100%; margin: 0; font-size: .8rem; color: var(--soluk); }
 .sahne-alt summary { cursor: pointer; font-weight: 650; color: var(--ink); }
 .transkript { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
 .transkript li b { color: var(--ink); }

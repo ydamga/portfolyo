@@ -1,10 +1,10 @@
-# Test ve Doğrulama: İş Başında Yapay Zekâ
+# Test ve Doğrulama: AI at Work
 
 ## Ne test edildi, ne edilmedi
 
 | Yöntem | Kapsam |
 |---|---|
-| Otomatik (jsdom + SCORM 1.2 sahte LMS), `node test/test.js` | **142 doğrulama, hepsi geçti** |
+| Otomatik (jsdom + SCORM 1.2 sahte LMS), `node test/test.js` | **168 doğrulama, hepsi geçti** |
 | Headless Chromium ekran görüntüleri (1280 ve 390 px; animasyonlu ve azaltılmış) | Yedi sahne, ifade/poz, balonlar, mobil düzen gözle incelendi |
 | Yatay taşma ölçümü (Chromium) | 320, 390, 768, 1024 px genişliklerde yedi sahnenin hiçbirinde yatay taşma yok |
 | **Test EDİLMEDİ** | Gerçek LMS (SAP SuccessFactors dahil), gerçek ekran okuyucu, Safari/Firefox, dokunmatik cihaz, gerçek öğrenenle süre/anlaşılırlık. Gerçek bir yapay zekâ servisi bu modülde yoktur. |
@@ -13,7 +13,7 @@
 
 | # | Senaryo | Beklenen |
 |---|---|---|
-| T1 | Başlatma | `incomplete`, hata yok, benzersiz id, ses düğmesi gizli ve `assets/audio` gerçekten boş, örnek çıktı etiketi, `progressbar`, erişilebilir düğme adları, çıkışta tek `LMSFinish`, geçerli `session_time` |
+| T1 | Başlatma | `incomplete`, hata yok, benzersiz id, ses düğmesi gizli (paketle ses gelmez) ve `assets/audio` gerçekten boş, kurgu etiketi, `progressbar`, erişilebilir düğme adları, çıkışta tek `LMSFinish`, geçerli `session_time` |
 | T2 | Kapılar ve geri bildirim | Her sahnede karar/5 bileşen olmadan Sonraki kapalı; her seçeneğe özel geri bildirim; S2 prompt'u doğru sırada oluşur; S3 iki çıktı + kontrol listesi, kelime sayısı kodla hesaplanır (≤ 90); S4 uydurma 4 parça işaretlenir, doğru seçimde "doğrulanacak"a döner, yanlışta işaretli kalır; S5 üç seçenekte üç farklı sonuç (hiçbiri / yalnız adlar / hepsi temizlenir) |
 | T3 | Puanlama | 3/5 → `failed`, `score.raw=60`, `exit=suspend`, yanlışlar gözden geçirme listesinde; başarısızken S7'ye ulaşılır ve "tamamladı, başaramadı" ayrı gösterilir; yeniden dene cevapları sıfırlar, en iyi puanı korur; 4/5 eşik dahil `passed`/80; sonraki 0/5 deneme başarıyı ve en iyi puanı bozmaz |
 | T4 | Tam doğru akış | 5/5 → `passed`/100, `exit` boş, kapanış 3 mesaj kartı, yer tutucular "doğrulandı", `lesson_location=s7`, `suspend_data` kompakt |
@@ -21,12 +21,13 @@
 | T6 | Kontroller | Animasyon açıkken etkileşim sahnenin sonunda gelir; balonlar sırayla; Atla, Yeniden oynat (cevabı korur), Azalt (`aria-pressed`, tüm diyalog hemen), `prefers-reduced-motion`, Alt+→/← (kapı klavyeyle atlatılamaz), LMS yokken tam akış |
 | T7 | İçerik ve paket | Dış adres yok, `prefers-reduced-motion`, `:focus-visible`, viewport, manifest (1.2, masteryscore 80), 7 sahne, 5 soru H1–H4'ü kapsar, doğru şıklar `[1,3,0,2,1]`, "en uzun şık doğru" ipucu ≤ 2/5 |
 | T8 | Karakter tutarlılığı | Ece ve Mert beş sahnede aynı SVG çizimi (ifade/poz dışında); Ece'nin 7 ifade varyantı |
+| T9 | Seslendirme altyapısı (sahte `Audio`) | 24 replik, benzersiz kimlik, Node ve Python özetleri aynı, `replikler.json` güncel; geçerli listede düğme ve "yapay zekâ" bildirimi görünür; ses varsayılan kapalı; ses bitmeden sonraki replik başlamaz, bitince başlar; kapatınca durur ve sahne takılmaz; `error` olayında sahne ilerler; tarayıcı engellerse ses kapanır ve bilgi verilir; metni değişmiş (eski) ses atlanır; azaltılmış hareket modunda sıralı çalma; bileşen seçince Mert repliği çalınır |
 
 ## Teslimat kontrol listesi (özet cevaplar)
 
 | Soru | Cevap |
 |---|---|
-| Bütün butonlar çalışıyor mu? | Otomatik testte tıklandı: seçenekler, bileşenler, Önceki/Sonraki, Yeniden oynat, Atla, Azalt, Sonraki soru, Yeniden dene, Değerlendirmeye dön. Ses düğmesi gizli (ses yok). |
+| Bütün butonlar çalışıyor mu? | Otomatik testte tıklandı: seçenekler, bileşenler, Önceki/Sonraki, Yeniden oynat, Atla, Azalt, Sonraki soru, Yeniden dene, Değerlendirmeye dön. Seslendirme düğmesi paketle gelen sürümde gizli (ses dosyası yok); sahte `Audio` ile T9'da çalışırken denendi. |
 | Her sahneye doğru ilerleniyor mu? | Evet; kapılar yalnızca karardan sonra açılır. |
 | Yanlış cevaplara doğru geri bildirim? | Evet; sahne içinde seçeneğe özel, değerlendirmede gerekçeli ve doğru cevap işaretli. |
 | Puanlama doğru mu? | 0/5, 3/5, 4/5, 5/5 senaryoları test edildi. |
@@ -40,6 +41,7 @@
 
 1. Soru ve seçenek sırası sabit; doğru şıklar farklı konumlara dağıtıldı. Soru havuzu ve karıştırma sonraki sürüm önerisidir.
 2. Sürekli hareketler (göz kırpma, nefes) küçüktür ve azaltılınca durur; yine de bazı kullanıcılar için dikkat dağıtıcı olabilir.
-3. Konuşan karakter ağız hareketi basit bir açılıp kapanmadır; dudak eşleşmesi yoktur ve ses olmadığı için gerekmez.
+3. Konuşan karakter ağız hareketi basit bir açılıp kapanmadır; dudak eşleşmesi yoktur. Seslendirme eklendiğinde ağız hareketi sese değil, metin süresine/ses bitişine bağlıdır.
 4. Modern tarayıcı gerekir (ES2015+, SVG, CSS `transform-box`); Internet Explorer desteklenmez.
-5. Süre (6–7 dk) tahmindir.
+5. Süre (6–7 dk) tahmindir; seslendirmeyle sahneler sese göre ilerlediğinden süre uzayabilir.
+6. **Seslendirme gerçek ses dosyasıyla hiç denenmedi.** Edge/Azure üretim kodu çalıştırılmadı; sesli akış yalnızca sahte `Audio` (jsdom) ve sessiz WAV dosyalarıyla Chromium'da denendi. Ses kalitesi, telaffuz ve süre dinlenerek doğrulanmalıdır. Ses altyazısı yerine ekranda tam diyalog metni vardır; otomatik altyazı iddiası yoktur.

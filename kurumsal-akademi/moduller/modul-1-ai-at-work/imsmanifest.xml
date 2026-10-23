@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="com.kurumsalakademi.demo.modul1" version="1.0"
+<manifest identifier="com.kurumsalakademi.demo.aiatwork" version="1.0"
           xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
           xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -11,24 +11,50 @@
     <schemaversion>1.2</schemaversion>
   </metadata>
 
-  <organizations default="ORG-M1">
-    <organization identifier="ORG-M1">
-      <title>Kurumsal Akademi</title>
-      <item identifier="ITEM-M1" identifierref="RES-M1" isvisible="true">
-        <title>Modül 1: İş Başında Yapay Zekâ, Daha İyi Prompt, Daha Güvenilir Sonuç</title>
+  <organizations default="ORG-AIW">
+    <organization identifier="ORG-AIW">
+      <title>AI at Work (Demo)</title>
+      <item identifier="ITEM-AIW" identifierref="RES-AIW" isvisible="true">
+        <title>AI at Work: Daha İyi Prompt, Daha Güvenilir Sonuç (Demo)</title>
         <adlcp:masteryscore>80</adlcp:masteryscore>
       </item>
     </organization>
   </organizations>
 
   <resources>
-    <resource identifier="RES-M1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+    <resource identifier="RES-AIW" type="webcontent" adlcp:scormtype="sco" href="index.html">
       <file href="index.html"/>
       <file href="css/styles.css"/>
       <file href="js/icerik.js"/>
       <file href="js/karakterler.js"/>
       <file href="js/scorm.js"/>
       <file href="js/app.js"/>
+      <file href="assets/audio/ses-listesi.js"/>
+      <!-- SES-DOSYALARI-BASLA (tools/seslendir.py bu bloğu günceller) -->
+      <file href="assets/audio/s1-b0.mp3"/>
+      <file href="assets/audio/s1-b1.mp3"/>
+      <file href="assets/audio/s1-b4.mp3"/>
+      <file href="assets/audio/s2-b0.mp3"/>
+      <file href="assets/audio/s2-b1.mp3"/>
+      <file href="assets/audio/s2-bitis.mp3"/>
+      <file href="assets/audio/s2-bl-cikti.mp3"/>
+      <file href="assets/audio/s2-bl-gorev.mp3"/>
+      <file href="assets/audio/s2-bl-kisit.mp3"/>
+      <file href="assets/audio/s2-bl-kitle.mp3"/>
+      <file href="assets/audio/s2-bl-rol.mp3"/>
+      <file href="assets/audio/s3-b1.mp3"/>
+      <file href="assets/audio/s3-o0.mp3"/>
+      <file href="assets/audio/s3-o1.mp3"/>
+      <file href="assets/audio/s4-b1.mp3"/>
+      <file href="assets/audio/s4-b2.mp3"/>
+      <file href="assets/audio/s4-b3.mp3"/>
+      <file href="assets/audio/s5-b0.mp3"/>
+      <file href="assets/audio/s5-b2.mp3"/>
+      <file href="assets/audio/s6-b0.mp3"/>
+      <file href="assets/audio/s7-b0.mp3"/>
+      <file href="assets/audio/s7-b2.mp3"/>
+      <file href="assets/audio/s7-b3.mp3"/>
+      <!-- SES-DOSYALARI-BITIS -->
     </resource>
   </resources>
 </manifest>

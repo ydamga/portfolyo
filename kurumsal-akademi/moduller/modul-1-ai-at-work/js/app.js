@@ -1,7 +1,7 @@
 /*
- * İş Başında Yapay Zekâ: modül mantığı ve arayüz.
+ * AI at Work: modül mantığı ve arayüz.
  * LMS ile yalnızca Koprusu (js/scorm.js) üzerinden konuşur; Koprusu yoksa ya da LMS bulunamazsa
- * modül çevrimdışı çalışır.
+ * modül çevrimdışı çalışır. Tüm kişiler, veriler ve yapay zekâ çıktıları kurgudur.
  *
  * Bölümler: 1) yardımcılar  2) durum ve kalıcılık  3) hareket tercihi  4) sahne ve diyalog
  *           5) animasyon motoru ve eylemler  6) sahne arayüzleri  7) gezinme  8) başlatma
@@ -15,8 +15,7 @@
   var KOP = window.Koprusu;
   var ESIK = 80;
   var TOPLAM = SAHNELER.length;
-  /* assets/audio/ içinde ses dosyası yok: ses denetimi bu yüzden gizli kalır. */
-  var SES_VAR = false;
+  var SES_ID = IC.SES_ID;
   var HARF = ["A", "B", "C", "D", "E"];
 
   /* ================= 1) Yardımcılar ================= */
@@ -33,7 +32,7 @@
     akis: $("akis"), etkilesim: $("etkilesim"), geri: $("geribildirim"), ekstra: $("ekstra"),
     geriBtn: $("geri"), ileriBtn: $("ileri"), ipucu: $("ipucu"),
     sahneNo: $("sahne-no"), yuzde: $("yuzde"), cubuk: $("cubuk"), dolgu: $("cubuk-dolgu"), noktalar: $("noktalar"),
-    yeniden: $("yeniden"), hareket: $("hareket"), atla: $("atla-anim"), ses: $("ses")
+    yeniden: $("yeniden"), hareket: $("hareket"), atla: $("atla-anim"), ses: $("ses"), sesNot: $("ses-not")
   };
 
   /* ================= 2) Durum ve kalıcılık ================= */
@@ -128,6 +127,7 @@
     motor.zamanlar.forEach(clearTimeout);
     motor.zamanlar = [];
     motor.oynuyor = false;
+    sesDurdur();
   }
 
   function sahneCiz(s) {
@@ -162,12 +162,85 @@
     el.balonlar.scrollTop = el.balonlar.scrollHeight;
     transkriptEkle(AD[kim], metin);
   }
+  /* ---- Seslendirme (isteğe bağlı) ----
+   * Sesler assets/audio/ içinde yoksa ya da metinle eşleşmiyorsa düğme gizlenir ve modül sessiz çalışır.
+   * Ses varsayılan olarak kapalıdır: tarayıcılar kullanıcı eylemi olmadan ses çalmayı engelleyebilir. */
+  var SES_LISTESI = (window.SES_LISTESI && typeof window.SES_LISTESI === "object") ? window.SES_LISTESI : {};
+  var ses = { acik: false, a: null, tok: 0, bitti: null };
+  function sesDosyasi(id, metin) {
+    var g = SES_LISTESI[id];
+    return (g && typeof g.d === "string" && g.h === IC.sesHash(metin)) ? g.d : null;
+  }
+  function sesKullanilabilir() {
+    if (typeof window.Audio !== "function") return false;
+    return IC.replikler().some(function (r) { return !!sesDosyasi(r.id, r.metin); });
+  }
+  /* Çalan sesi, bitiş geri çağrısını çalıştırmadan durdurur (sahne değişimi, yeni replik). */
+  function sesDurdur() {
+    ses.tok++;
+    ses.bitti = null;
+    var a = ses.a;
+    ses.a = null;
+    if (a) { try { a.pause(); } catch (e) { /* yoksay */ } }
+  }
+  function sesDugme() {
+    el.ses.setAttribute("aria-pressed", ses.acik ? "true" : "false");
+  }
+  function sesKapat(neden) {
+    var f = ses.bitti;
+    sesDurdur();
+    ses.acik = false;
+    sesDugme();
+    if (neden) el.ipucu.textContent = neden;
+    if (f) f();
+  }
+  /* Repliği çalar; çalmaya başladıysa true döner. bitti: ses bitince (ya da hata verince) çağrılır. */
+  function sesCal(id, metin, bitti) {
+    if (!ses.acik) return false;
+    var dosya = sesDosyasi(id, metin);
+    if (!dosya) return false;
+    sesDurdur();
+    var tok = ses.tok, a;
+    function bitir() {
+      if (ses.tok !== tok) return;
+      ses.a = null; ses.bitti = null;
+      if (bitti) bitti();
+    }
+    try { a = new window.Audio(dosya); } catch (e) { return false; }
+    ses.a = a; ses.bitti = bitti || null;
+    a.addEventListener("ended", bitir);
+    a.addEventListener("error", bitir);
+    var p;
+    try { p = a.play(); } catch (e) { bitir(); return true; }
+    if (p && typeof p.catch === "function") {
+      p.catch(function (err) {
+        if (ses.tok !== tok) return;
+        if (err && err.name === "NotAllowedError") sesKapat("Tarayıcı sesi başlatmayı engelledi. Seslendirme düğmesine yeniden basarak dene.");
+        else bitir();
+      });
+    }
+    return true;
+  }
+  /* Hızlı modda (animasyonsuz) sahnenin repliklerini sırayla çalar. */
+  function sesSirasi(s, j) {
+    var kuyruk = [];
+    s.beats.forEach(function (b, k) {
+      var kim = b.kim || (b.eylem === "bildirim" ? "yonetici" : null);
+      if (kim && b.metin && sesDosyasi(SES_ID.beat(s, k), b.metin)) kuyruk.push([SES_ID.beat(s, k), b.metin]);
+    });
+    (function sonraki(n) {
+      if (j !== motor.jeton || n >= kuyruk.length) return;
+      sesCal(kuyruk[n][0], kuyruk[n][1], function () { zamanla(function () { sonraki(n + 1); }, 300); });
+    })(0);
+  }
+
   /* Beat zaman çizelgesi dışında (etkileşimden sonra) kısa konuşma */
-  function konusAnlik(kim, metin, durum) {
+  function konusAnlik(kim, metin, durum, sesKimlik) {
     if (durum) { if (durum.ece) karakterDurum("ece", durum.ece); if (durum.mert) { mertGoster(); karakterDurum("mert", durum.mert); } }
     balon(kim, metin, az);
     konusAyarla(kim);
-    zamanla(function () { konusAyarla(""); }, Math.min(2600, 700 + metin.length * 30));
+    var konustu = sesKimlik ? sesCal(sesKimlik, metin, function () { konusAyarla(""); }) : false;
+    zamanla(function () { konusAyarla(""); }, konustu ? 60000 : Math.min(2600, 700 + metin.length * 30));
   }
 
   /* ================= 5) Animasyon motoru ve eylemler ================= */
@@ -182,8 +255,8 @@
     var s = $("sohbet");
     if (s) return s;
     el.akis.insertAdjacentHTML("beforeend",
-      '<div class="sohbet bolum" role="group" aria-label="Yapay zekâ asistanı sohbet penceresi">' +
-      '<div class="sohbet-ust">' + K.asistanSimge("bosta") + "<span>Yapay zekâ asistanı</span></div>" +
+      '<div class="sohbet bolum" role="group" aria-label="Yapay zekâ asistanı sohbet penceresi (kurgusal arayüz)">' +
+      '<div class="sohbet-ust">' + K.asistanSimge("bosta") + "<span>Yapay zekâ asistanı</span><small>Kurgusal arayüz</small></div>" +
       '<div class="sohbet-icerik" id="sohbet"></div></div>');
     return $("sohbet");
   }
@@ -217,7 +290,7 @@
     return p.b ? '<span class="baslik-satir">' + h + "</span>" : h;
   }
   function ciktiHtml(paralar, ek) {
-    return '<span class="kurgu-etiket">Örnek çıktı</span>' + paralar.map(function (p) { return "<p>" + parcaHtml(p) + "</p>"; }).join("") + (ek || "");
+    return '<span class="kurgu-etiket">Kurgusal örnek çıktı</span>' + paralar.map(function (p) { return "<p>" + parcaHtml(p) + "</p>"; }).join("") + (ek || "");
   }
 
   var EYLEM = {
@@ -250,7 +323,7 @@
         return r.h ? '<span class="hassas" data-h="' + r.h + '" data-t="' + esc(r.t) + '" data-y="' + esc(r.y) + '">' + esc(r.t) + "</span>" : esc(r.t);
       }).join("");
       el.akis.insertAdjacentHTML("beforeend",
-        '<div class="prompt-kutusu bolum" id="taslak-kutu"><span class="etiket">Ece\'nin taslak prompt\'u</span><span id="taslak">' + govde + "</span></div>" +
+        '<div class="prompt-kutusu bolum" id="taslak-kutu"><span class="etiket">Ece\'nin taslak prompt\'u (çalışan bilgileri kurgudur)</span><span id="taslak">' + govde + "</span></div>" +
         '<p class="hedef">Sarı işaretli parçalar kişisel ya da gizli veridir.</p>');
     },
     kur: function (b, h) {
@@ -290,7 +363,7 @@
     }
   };
 
-  function oynat(s, hizli) {
+  function oynat(s, hizli, sesli) {
     iptalEt();
     el.balonlar.innerHTML = "";
     el.transkript.innerHTML = "";
@@ -307,13 +380,25 @@
     function adim() {
       if (j !== motor.jeton) return;
       if (i >= s.beats.length) { bitti(); return; }
-      var b = s.beats[i++];
+      var k = i, b = s.beats[i++];
       beatDurum(b);
       if (b.eylem && EYLEM[b.eylem]) EYLEM[b.eylem](b, hizli);
       if (b.kim && b.metin) { balon(b.kim, b.metin, hizli); if (!hizli) konusAyarla(b.kim); } else if (!hizli) konusAyarla("");
-      if (hizli) adim(); else zamanla(adim, beatSure(b));
+      if (hizli) { adim(); return; }
+      /* Sesli beat: hem süre dolmalı hem ses bitmeli; ses takılırsa 30 sn sonra yine de ilerler. */
+      var gecildi = false, bekleyen = 1;
+      function git() { if (gecildi || j !== motor.jeton) return; gecildi = true; adim(); }
+      function say() { if (--bekleyen <= 0) git(); }
+      zamanla(say, beatSure(b));
+      var kim = b.kim || (b.eylem === "bildirim" ? "yonetici" : null);
+      if (kim && b.metin && ses.acik) {
+        bekleyen++;
+        var basladi = sesCal(SES_ID.beat(s, k), b.metin, function () { zamanla(say, 300); });
+        if (basladi) zamanla(git, beatSure(b) + 30000); else bekleyen--;
+      }
     }
     adim();
+    if (hizli && sesli && ses.acik) sesSirasi(s, j);
   }
   function oynuyorGoster() {
     el.atla.hidden = !(motor.oynuyor && !az);
@@ -401,7 +486,7 @@
     }
     function bitisGoster(sessiz) {
       el.geri.innerHTML = '<div class="geri-bildirim dogru" role="status"><h3>✓ Beş bileşeni de keşfettin</h3><p>Rol/bağlam, görev, hedef kitle, çıktı biçimi ve kısıtlar birlikte, asistanın tahmin etmesini azaltır.</p></div>';
-      if (!sessiz) konusAnlik("ece", s.bitis.ece, { ece: { ifade: "mutlu", poz: "yaz" }, mert: { ifade: "mutlu", poz: "dur" } });
+      if (!sessiz) konusAnlik("ece", s.bitis.ece, { ece: { ifade: "mutlu", poz: "yaz" }, mert: { ifade: "mutlu", poz: "dur" } }, SES_ID.bitis());
     }
     dugmeler.forEach(function (d, i) {
       d.addEventListener("click", function () {
@@ -412,7 +497,7 @@
         segDoldur(b.id); vurgula(b.id); durumGoster();
         $("bilesen-aciklama").innerHTML = '<div class="bilesen-aciklama"><b>' + esc(b.ad) + ":</b> " + esc(b.mert) + "</div>";
         if (D.b === 31 && oncekiMaske !== 31) bitisGoster(false);
-        else if (D.b !== 31) { el.geri.innerHTML = ""; konusAnlik("mert", b.mert, { mert: { ifade: "gulumse", poz: "anlat" } }); zamanla(function () { karakterDurum("mert", { poz: "dur" }); }, 2400); }
+        else if (D.b !== 31) { el.geri.innerHTML = ""; konusAnlik("mert", b.mert, { mert: { ifade: "gulumse", poz: "anlat" } }, SES_ID.bilesen(b.id)); zamanla(function () { karakterDurum("mert", { poz: "dur" }); }, 2400); }
         kaydet(); altGuncelle(); ilerlemeGuncelle();
       });
     });
@@ -439,7 +524,7 @@
       var o = s.secenekler[i];
       karakterDurum("ece", o.ece);
       ciktiKarsilastir(i);
-      if (!sessiz) konusAnlik("mert", o.mert, { mert: { ifade: i === s.dogru ? "gulumse" : "dusunceli", poz: "anlat" } });
+      if (!sessiz) konusAnlik("mert", o.mert, { mert: { ifade: i === s.dogru ? "gulumse" : "dusunceli", poz: "anlat" } }, SES_ID.secenek(i));
     });
   }
 
@@ -461,7 +546,7 @@
       var dogru = i === s.soru.dogru;
       s4Uygula(dogru ? "duzelt" : "uyari");
       asistanDurum(dogru ? "bosta" : "uyari");
-      el.ekstra.innerHTML = '<div class="sonuc-kutu"><b>Olası sonuç:</b> ' + esc(o.sonuc) + "</div>" +
+      el.ekstra.innerHTML = '<div class="sonuc-kutu"><b>Kurgusal sonuç:</b> ' + esc(o.sonuc) + "</div>" +
         (dogru ? '<ul class="liste-kutusu">' + s.dogrulama.map(function (d) { return "<li><b>" + esc(d.ad) + ":</b> kaynak → " + esc(d.kaynak) + "</li>"; }).join("") + "</ul>" : "");
     });
   }
@@ -484,7 +569,7 @@
       karakterDurum("ece", o.ece);
       hassasUygula(o.temizle, sessiz);
       asistanDurum(i === s.soru.dogru ? "bosta" : "uyari");
-      el.ekstra.innerHTML = '<div class="sonuc-kutu"><b>Olası sonuç:</b> ' + esc(o.sonuc) + "</div>";
+      el.ekstra.innerHTML = '<div class="sonuc-kutu"><b>Kurgusal sonuç:</b> ' + esc(o.sonuc) + "</div>";
     });
   }
 
@@ -524,12 +609,12 @@
       var dogru = i === q.dogru;
       dugmeler.forEach(function (d, idx) {
         d.setAttribute("aria-disabled", "true");
-        if (idx === i) { d.classList.add(dogru ? "dogru" : "yanlis"); d.querySelector(".durum").textContent = dogru ? "✓ Doğru" : "✗ Henüz değil"; }
+        if (idx === i) { d.classList.add(dogru ? "dogru" : "yanlis"); d.querySelector(".durum").textContent = dogru ? "✓ Doğru" : "✗ Yanlış"; }
         else if (idx === q.dogru) { d.classList.add("dogru"); d.querySelector(".durum").textContent = "✓ Doğru cevap"; }
         else d.classList.add("soluk");
       });
       var son = k === 4;
-      el.geri.innerHTML = '<div class="geri-bildirim ' + (dogru ? "dogru" : "yanlis") + '" role="status"><h3>' + (dogru ? "✓ Doğru" : "✗ Henüz değil") + "</h3><p>" + esc(q.acik) + "</p></div>" +
+      el.geri.innerHTML = '<div class="geri-bildirim ' + (dogru ? "dogru" : "yanlis") + '" role="status"><h3>' + (dogru ? "✓ Doğru" : "✗ Yanlış") + "</h3><p>" + esc(q.acik) + "</p></div>" +
         '<div class="eylem-satiri"><button type="button" class="dugme" id="sonraki-soru">' + (son ? "Sonucu gör" : "Sonraki soru") + "</button></div>";
       $("sonraki-soru").addEventListener("click", function () { if (son) sonucGoster(); else soruGoster(k + 1); });
     }
@@ -558,7 +643,7 @@
       '<h3 class="sonuc-baslik ' + (gecti ? "gecti" : "kaldi") + '" id="sonuc-baslik">' + (gecti ? "Tebrikler, eşiği geçtin!" : "Eşiğe çok yaklaştın, yeniden dene") + "</h3>" +
       '<p class="hedef" style="margin:4px 0 0">Geçme eşiği: %' + ESIK + " (en az 4 / 5 doğru)</p></div>" +
       '<dl class="durum-satirlari"><div><dt>Bu denemedeki puan</dt><dd>%' + puan + "</dd></div><div><dt>En iyi puan</dt><dd>%" + Math.max(D.en, 0) + "</dd></div><div><dt>Deneme sayısı</dt><dd>" + D.n + "</dd></div><div><dt>Başarı durumu</dt><dd>" + basariMetni + "</dd></div></dl>" +
-      (yanlislar.length ? '<h3 style="margin:14px 0 4px;font-size:1rem">Daha iyi ne yapılabilirdi?</h3><ul class="inceleme">' + yanlislar.map(function (n) {
+      (yanlislar.length ? '<h3 style="margin:14px 0 4px;font-size:1rem">Yanlışlarını gözden geçir</h3><ul class="inceleme">' + yanlislar.map(function (n) {
         var q = SORULAR[n];
         return "<li><b>Soru " + (n + 1) + ": " + esc(q.metin) + '</b><span class="sen">Cevabın: ' + esc(q.s[D.q[n]]) + '</span><br><span class="dogru-c">Doğru cevap: ' + esc(q.s[q.dogru]) + "</span><br>" + esc(q.acik) + "</li>";
       }).join("") + "</ul>" : '<p class="ipucu-kutu">Tüm soruları doğru yanıtladın.</p>') +
@@ -581,7 +666,7 @@
   function kapanisBanti() {
     var gecti = !!D.g;
     var lms = KOP.bagliMi()
-      ? "LMS’ye bildirilen durum: " + (gecti ? "başarılı (passed)" : "henüz geçilmedi (failed)") + " · En iyi puan: %" + Math.max(D.en, 0)
+      ? "LMS’ye bildirilen durum: " + (gecti ? "başarılı (passed)" : "başarısız (failed)") + " · En iyi puan: %" + Math.max(D.en, 0)
       : "Bu oturum bir LMS’ye bağlı değil; ilerleme kaydedilmiyor (çevrimdışı mod).";
     return '<div class="tamam-bant ' + (gecti ? "" : "uyari") + '" id="tamam-bant"><h3>' + (gecti ? "Modülü tamamladın ve başardın!" : "Modülü tamamladın, ama geçme eşiğini henüz yakalayamadın") + "</h3>" +
       "<p>" + (gecti ? "Daha iyi prompt yazmayı, çıktıyı doğrulamayı ve verileri korumayı gösterdin. Bu hafta kendi işinde bir görevi bu üç adımla dene." : "Tamamlama ve başarı ayrı izlenir. Başarı için değerlendirmeyi yeniden deneyebilirsin.") + "</p>" +
@@ -649,7 +734,7 @@
     HAZIR[i](s);
     ilerlemeGuncelle();
     kaydet();
-    oynat(s, hizli);
+    oynat(s, hizli, canlandir);
     altGuncelle();
     try { window.scrollTo(0, 0); } catch (e) { /* jsdom */ }
   }
@@ -677,7 +762,12 @@
       else if (az) { konusAyarla(""); }
       oynuyorGoster();
     });
-    el.ses.addEventListener("click", function () { /* ses dosyası yok; düğme gizli */ });
+    el.ses.addEventListener("click", function () {
+      if (ses.acik) { sesKapat(""); altGuncelle(); return; }
+      ses.acik = true;
+      sesDugme();
+      sahneyeGit(D.e, true); /* sahneyi sesle baştan oynat */
+    });
     document.addEventListener("keydown", function (e) {
       if (!e.altKey || e.ctrlKey || e.metaKey) return;
       if (e.key === "ArrowRight") { e.preventDefault(); ileri(); }
@@ -702,7 +792,10 @@
     var tercih = false;
     try { tercih = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); } catch (e) { tercih = false; }
     hareketAyarla(tercih);
-    el.ses.hidden = !SES_VAR;
+    var sesVar = sesKullanilabilir();
+    el.ses.hidden = !sesVar;
+    el.sesNot.hidden = !sesVar;
+    sesDugme();
     olaylar();
     sahneyeGit(D.e, false);
   }

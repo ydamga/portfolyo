@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>İş Başında Yapay Zekâ: Daha İyi Prompt, Daha Güvenilir Sonuç</title>
-  <meta name="description" content="Üretken yapay zekâyı etkili, güvenli ve eleştirel kullanma becerisi üzerine animasyonlu mikro öğrenme modülü.">
+  <title>AI at Work: Daha İyi Prompt, Daha Güvenilir Sonuç</title>
+  <meta name="description" content="Üretken yapay zekâyı etkili, güvenli ve eleştirel kullanma becerisi üzerine animasyonlu mikro öğrenme modülü (kurgusal demo).">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.1 5.6 5.6 2.1-5.6 2.1L12 18l-2.1-5.7L4.3 10.2l5.6-2.1L12 2.5z" fill="#fff"/><circle cx="19" cy="18" r="2.3" fill="#ffc233"/><circle cx="5.5" cy="18.5" r="1.4" fill="#6ff0d4"/></svg>
         </span>
         <div>
-          <h1>İş Başında Yapay Zekâ</h1>
+          <h1>AI at Work</h1>
           <p>Daha İyi Prompt, Daha Güvenilir Sonuç</p>
         </div>
       </div>
@@ -34,10 +34,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14M18 5v14"/></svg>
           <span>Animasyonu azalt</span>
         </button>
-        <!-- Ses düğmesi: assets/audio/ içinde ses dosyası olmadığı için gizlidir (bkz. app.js SES_VAR). -->
+        <!-- Seslendirme düğmesi: assets/audio/ses-listesi.js içinde metinle eşleşen ses yoksa gizli kalır. -->
         <button type="button" class="arac" id="ses" aria-pressed="false" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM17 8a5 5 0 0 1 0 8"/></svg>
-          <span id="ses-yazi">Sesi aç</span>
+          <span id="ses-yazi">Seslendirme</span>
         </button>
       </div>
     </div>
@@ -61,6 +61,7 @@
           <summary>Diyalog metni</summary>
           <ol class="transkript" id="transkript"></ol>
         </details>
+        <p class="ses-not" id="ses-not" hidden>Seslendirme yapay zekâ ile üretilmiş sentetik seslerdir; Ece ve Mert kurgusal karakterlerdir. Ses varsayılan olarak kapalıdır; “Seslendirme” düğmesiyle açılır.</p>
       </div>
     </section>
 
@@ -87,11 +88,12 @@
       </button>
     </div>
   </footer>
-  <p class="klavye">Klavye: Tab ile gezin, Enter ya da Boşluk ile seçin; Alt + ← / Alt + → sahne değiştirir.</p>
+  <p class="klavye">Klavye: Tab ile gezin, Enter ya da Boşluk ile seçin; Alt + ← / Alt + → sahne değiştirir. Kurgusal demo; kişiler, veriler ve yapay zekâ çıktıları örnektir.</p>
 
   <script src="js/icerik.js"></script>
   <script src="js/karakterler.js"></script>
   <script src="js/scorm.js"></script>
+  <script src="assets/audio/ses-listesi.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

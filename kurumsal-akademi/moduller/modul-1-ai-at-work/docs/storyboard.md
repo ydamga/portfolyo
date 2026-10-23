@@ -1,4 +1,6 @@
-# İş Başında Yapay Zekâ: Daha İyi Prompt, Daha Güvenilir Sonuç — Storyboard ve Görsel Yön
+# AI at Work: Daha İyi Prompt, Daha Güvenilir Sonuç — Storyboard ve Görsel Yön
+
+> Kurgusal demo çalışmadır. Ece, Mert, yönetici, çalışan bilgileri, tarihler ve yapay zekâ çıktıları kurgudur. Modül gerçek bir yapay zekâ servisi çağırmaz; gösterilen çıktılar önceden yazılmıştır ve ekranda "Kurgusal örnek çıktı" etiketi taşır.
 
 Alt başlık: Üretken yapay zekâyı etkili, güvenli ve eleştirel kullanma becerisi. · Dil: Türkçe · Süre: yaklaşık 6–7 dk (tahmin, gerçek öğrenenle ölçülmedi) · Hedef kitle: farklı departmanlardaki kurumsal profesyoneller.
 
@@ -7,7 +9,7 @@ Alt başlık: Üretken yapay zekâyı etkili, güvenli ve eleştirel kullanma be
 | # | Hedef | Bloom düzeyi |
 |---|---|---|
 | H1 | Etkili bir prompt'un temel bileşenlerini belirler. | Uygulama |
-| H2 | Geliştirilebilir bir prompt'u iyileştirir. | Uygulama / Değerlendirme |
+| H2 | Zayıf bir prompt'u iyileştirir. | Uygulama / Değerlendirme |
 | H3 | Yapay zekâ çıktısını doğrular. | Değerlendirme |
 | H4 | Gizli veya kişisel bilgilerin paylaşılmasına ilişkin riskleri tanır. | Analiz |
 
@@ -37,9 +39,9 @@ Her sahne tek bir amaca odaklanır. Akış: iş problemi → karakterlerle giri�
 |---|---|---|---|---|
 | 1 | Belirsiz bir istek | H1 (ihtiyaç) | Yönetici mesajı gelir; Ece düşünür, asistana "Bana bir eğitim duyurusu hazırla." yazar (yazma animasyonu); genel bir metin belirir; Ece hayal kırıklığına uğrar. | “Sence bu prompt neden yeterince etkili değil?” (3 seçenek). Her seçeneğin kendi geri bildirimi var; Ece'nin ifadesi cevaba göre değişir. |
 | 2 | İyi prompt'un anatomisi | H1 | Mert 5 bileşeni anlatır; konuşurken jest yapar. | 5 bileşen kartı (rol/bağlam, görev, hedef kitle, çıktı biçimi, kısıtlar). Seçilen kart örnek prompt'ta ilgili bölümü vurgular ve prompt kutusunda bölüm bölüm oluşur. 5'i de görülmeden ilerlenmez. |
-| 3 | Prompt'u iyileştir | H2 | Mert görevi verir (İK ekibi, yeni çalışanlar için duyuru). | A (geliştirilebilir) ve B (güçlü) prompt. Seçimden hemen sonra iki prompt'un örnek çıktısı yan yana ve bileşen kontrol listesi görünür; kelime sayısı kodla hesaplanır. |
+| 3 | Prompt'u iyileştir | H2 | Mert görevi verir (İK ekibi, yeni çalışanlar için duyuru). | A (zayıf) ve B (güçlü) prompt. Seçimden hemen sonra iki prompt'un kurgusal çıktısı yan yana ve bileşen kontrol listesi görünür; kelime sayısı kodla hesaplanır. |
 | 4 | Her çıktıya güvenme | H3 | Asistan, verilmemiş bir tarih, saat ve yer ekler. Ece paylaşmak üzeredir; Mert "Dur!" der. Uydurma kısımlar işaretlenir. | 3 seçenek (paylaş / tasarımı değiştir / doğrula). Her seçeneğin sonucu gösterilir; doğru seçimde uydurma bilgiler "doğrulanacak" yer tutucusuna dönüşür ve doğrulama listesi açılır. |
-| 5 | Veri güvenliği | H4 | Ece prompt'a çalışan bilgilerini eklemeyi düşünür; hassas parçalar işaretlenir. | 3 seçenek. Doğru seçimde hassas parçalar animasyonla karartılıp yer tutucuyla değişir; kısmi çözümde (yalnız ad silme) kalan hassas veri işaretli kalır. |
+| 5 | Veri güvenliği | H4 | Ece prompt'a çalışan bilgilerini eklemeyi düşünür; hassas parçalar işaretlenir (kurgusal veri). | 3 seçenek. Doğru seçimde hassas parçalar animasyonla karartılıp yer tutucuyla değişir; kısmi çözümde (yalnız ad silme) kalan hassas veri işaretli kalır. |
 | 6 | Son değerlendirme | H1–H4 | — | 5 soru; her cevaptan sonra gerekçeli geri bildirim. Geçme eşiği %80 (4/5). Yanlışları gözden geçir, sınırsız yeniden dene. |
 | 7 | Kapanış | Transfer | Ece iyileştirilmiş prompt'u kurar, çıktıyı doğrular, duyuruyu tamamlar; Mert onaylar. | 3 temel mesaj kartı, durum özeti (tamamlama ve başarı ayrı), tamamlama mesajı. |
 
@@ -53,7 +55,7 @@ Her sahne tek bir amaca odaklanır. Akış: iş problemi → karakterlerle giri�
 | Yeniden oynat | Sahnenin animasyonunu baştan oynatır (cevabı silmez) |
 | Animasyonları azalt/durdur | Düğme (`aria-pressed`) ve işletim sistemi `prefers-reduced-motion` tercihi; azaltılınca tüm diyalog hemen görünür |
 | Animasyonu atla | Oynarken görünür; son durumu hemen gösterir |
-| Ses düğmesi | `assets/audio/` içinde ses dosyası yok; bu yüzden düğme **gizlidir**. Seslendirme yok, altyazı iddiası yok. Tüm diyalog metni sahnede yazılıdır ve "Diyalog metni" bölümünde de okunur. |
+| Seslendirme | Altyapı hazır (24 replik, `docs/seslendirme-metni.md`); ses dosyası paketle gelmez, bu yüzden düğme **gizlidir**. Sesler `tools/seslendir.py` ile üretilir (README, "Seslendirme"). Açıldığında ses yapay zekâ ürünü olarak etiketlenir, varsayılan kapalıdır. Tüm diyalog metni sahnede yazılıdır ve "Diyalog metni" bölümünde de okunur. |
 | Klavye | Tüm kontroller Tab/Enter/Boşluk ile; Alt+← / Alt+→ sahne değiştirir |
 | Duyarlı düzen | ≥ 960 px: sahne solda, panel sağda; dar ekranda tek sütun, balonlar sahnenin altında akar |
 
@@ -62,7 +64,7 @@ Her sahne tek bir amaca odaklanır. Akış: iş problemi → karakterlerle giri�
 | Hedef | Öğrenme etkinliği | Sahne içi karar (puansız) | Değerlendirme sorusu (puanlı) |
 |---|---|---|---|
 | H1 Bileşenleri belirler | Sahne 1, 2 | S1 nedeni seçme; S2 beş bileşeni keşfetme | S6 – Soru 1 |
-| H2 Geliştirilebilir prompt'u iyileştirir | Sahne 3 | S3 A/B seçimi ve çıktı karşılaştırma | S6 – Soru 2 |
+| H2 Zayıf prompt'u iyileştirir | Sahne 3 | S3 A/B seçimi ve çıktı karşılaştırma | S6 – Soru 2 |
 | H3 Çıktıyı doğrular | Sahne 4 | S4 sonraki adımı seçme | S6 – Soru 3 |
 | H4 Gizlilik riskini tanır | Sahne 5 | S5 güvenli yaklaşımı seçme | S6 – Soru 4 ve 5 |
 

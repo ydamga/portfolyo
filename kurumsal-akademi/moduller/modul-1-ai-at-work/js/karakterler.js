@@ -1,7 +1,7 @@
 /*
  * Görsel sistem: özgün SVG karakterler (Ece, Mert), yapay zekâ asistanı ve ofis sahnesi.
  * Dış görsel, yazı tipi veya kütüphane yoktur; hepsi burada çizilir.
- * Vyond/Powtoon varlığı kullanılmamıştır.
+ * Karakterler ve olaylar kurgudur. Vyond/Powtoon varlığı kullanılmamıştır.
  *
  * İfade, poz ve konuşma durumu SVG üzerindeki data-* öznitelikleriyle değişir
  * (CSS hangi varyantın görüneceğini seçer), bu yüzden yeniden çizim gerekmez.

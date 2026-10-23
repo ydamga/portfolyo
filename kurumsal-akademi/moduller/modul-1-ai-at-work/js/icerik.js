@@ -1,5 +1,6 @@
 /*
- * İçerik verisi: sahneler, diyaloglar, seçenekler, örnek çıktılar ve değerlendirme.
+ * İçerik verisi: sahneler, diyaloglar, seçenekler, kurgusal çıktılar ve değerlendirme.
+ * Tüm kişiler, tarihler, çalışan bilgileri ve yapay zekâ çıktıları KURGUDUR.
  * Mantık app.js içindedir; bu dosya yalnızca veri taşır.
  */
 (function (global) {
@@ -7,7 +8,7 @@
 
   var SAHNELER = [
     {
-      id: "s1", ad: "Belirsiz bir istek", hedef: "H1 · Daha iyi ne yapılabileceğini fark et",
+      id: "s1", ad: "Belirsiz bir istek", hedef: "H1 · Neden işe yaramadığını fark et",
       ton: "sicak", ikon: "soru",
       etiket: "Ofis sahnesi: Ece masasında, yanında küçük yapay zekâ asistanı. Ece düşünceli.",
       ece: { ifade: "notr", poz: "yaz" }, mert: null, asistan: "bosta",
@@ -64,7 +65,7 @@
       bitis: { ece: "Anladım! Ne istediğimi açıkça söylemem gerekiyormuş." }
     },
     {
-      id: "s3", ad: "Prompt'u iyileştir", hedef: "H2 · İyi ve geliştirilebilir prompt'u ayırt et",
+      id: "s3", ad: "Prompt'u iyileştir", hedef: "H2 · İyi ve zayıf prompt'u ayırt et",
       ton: "lavanta", ikon: "onay",
       etiket: "Ofis sahnesi: Mert görevi veriyor, Ece iki prompt arasında düşünüyor.",
       ece: { ifade: "notr", poz: "yaz" }, mert: { ifade: "notr", poz: "dur" }, asistan: "bosta",
@@ -123,7 +124,7 @@
             sonuc: "Şık ama yanlış bir duyuru gider. Çalışanlar yanlış gün ve yerde bekler.",
             ece: { ifade: "dusunceli", poz: "cene" } },
           { m: "Metni hemen paylaş.",
-            b: "Daha güvenli bir yol var. Tarih, saat ve yer asistanın tahminiydi. Yanlış bilgi paylaşıldıktan sonra düzeltmek hem zaman hem güven kaybettirir.",
+            b: "Riskli. Tarih, saat ve yer asistanın tahminiydi. Yanlış bilgi paylaşıldıktan sonra düzeltmek hem zaman hem güven kaybettirir.",
             sonuc: "Yanlış bilgi herkese ulaşır; düzeltme e-postası gerekir ve duyurunun güveni zedelenir.",
             ece: { ifade: "saskin", poz: "yaz" } },
           { m: "Tarihi ve diğer kritik bilgileri doğrula.",
@@ -170,12 +171,12 @@
             temizle: [1, 2, 3, 4, 5],
             ece: { ifade: "mutlu", poz: "yaz" } },
           { m: "Listeyi olduğu gibi yapıştırırım; araç zaten yardım etmek için var.",
-            b: "Daha güvenli bir yol var. Yetkisiz bir araca girilen kişisel veri kontrolünüzden çıkar. Maaş, e-posta ve performans notu hem çalışanları hem kurumu riske atar.",
+            b: "Riskli. Yetkisiz bir araca girilen kişisel veri kontrolünüzden çıkar. Maaş, e-posta ve performans notu hem çalışanları hem kurumu riske atar.",
             sonuc: "Ad, e-posta, maaş ve performans notu yetkisiz bir araca gider. Veriyi geri almak mümkün olmayabilir.",
             temizle: [],
             ece: { ifade: "saskin", poz: "yaz" } },
           { m: "Yalnızca adları silerim; maaş ve performans notu kalabilir.",
-            b: "İyi bir başlangıç, bir adım daha var. Ad silinse bile maaş, e-posta ve performans notu kişiyi tanımlayabilir ve hassastır. Anonimleştirme yalnızca ad silmekten ibaret değildir.",
+            b: "Eksik. Ad silinse bile maaş, e-posta ve performans notu kişiyi tanımlayabilir ve hassastır. Anonimleştirme yalnızca ad silmekten ibaret değildir.",
             sonuc: "Adlar gizlendi ama e-posta, maaş ve performans notu hâlâ prompt'ta; kişi dolaylı yoldan tanımlanabilir.",
             temizle: [1, 4],
             ece: { ifade: "dusunceli", poz: "cene" } }
@@ -273,7 +274,7 @@
       acik: "Ad, e-posta ve sicil numarası doğrudan kimlik belirtir. Yaş ve şehir gibi dolaylı bilgiler de kişiyi ortaya çıkarabilir. Genel ve tanımlayıcı olmayan bir örnek en güvenlisidir."
     }
   ];
-  /* Örnek çıktılar (gerçek bir model çağrılmaz) */
+  /* Kurgusal örnek çıktılar (gerçek bir model çağrılmaz) */
   var CIKTILAR = {
     genel: [
       { t: "Değerli çalışanlarımız," },
@@ -287,5 +288,40 @@
     ]
   };
 
-  global.ICERIK = { SAHNELER: SAHNELER, SORULAR: SORULAR, CIKTILAR: CIKTILAR };
+  /*
+   * Seslendirme: konuşan her satır bir "replik"tir. Kimlik kuralı app.js ile ortaktır.
+   * sesHash, replik metninin 32 bit FNV-1a özetidir (UTF-16 kod birimleri üzerinden). Ses dosyası, yalnızca
+   * üretildiği metinle aynı metin için çalınır; metin sonradan değişirse eski ses sessizce atlanır.
+   * tools/seslendir.py aynı özeti hesaplar.
+   */
+  var SES_ID = {
+    beat: function (s, k) { return s.id + "-b" + k; },
+    bilesen: function (id) { return "s2-bl-" + id; },
+    bitis: function () { return "s2-bitis"; },
+    secenek: function (i) { return "s3-o" + i; }
+  };
+  function sesHash(metin) {
+    var h = 0x811c9dc5;
+    for (var i = 0; i < metin.length; i++) {
+      h ^= metin.charCodeAt(i);
+      h = Math.imul(h, 0x01000193) >>> 0;
+    }
+    return ("00000000" + (h >>> 0).toString(16)).slice(-8);
+  }
+  function replikler() {
+    var r = [];
+    function ekle(id, sahne, kim, metin) { r.push({ id: id, sahne: sahne, kim: kim, metin: metin, h: sesHash(metin) }); }
+    SAHNELER.forEach(function (s, n) {
+      s.beats.forEach(function (b, k) {
+        var kim = b.kim || (b.eylem === "bildirim" ? "yonetici" : null);
+        if (kim && b.metin) ekle(SES_ID.beat(s, k), s.id, kim, b.metin);
+      });
+      if (s.bilesenler) s.bilesenler.forEach(function (b) { ekle(SES_ID.bilesen(b.id), s.id, "mert", b.mert); });
+      if (s.bitis && s.bitis.ece) ekle(SES_ID.bitis(), s.id, "ece", s.bitis.ece);
+      if (s.id === "s3") s.secenekler.forEach(function (o, i) { if (o.mert) ekle(SES_ID.secenek(i), s.id, "mert", o.mert); });
+    });
+    return r;
+  }
+
+  global.ICERIK = { SAHNELER: SAHNELER, SORULAR: SORULAR, CIKTILAR: CIKTILAR, SES_ID: SES_ID, sesHash: sesHash, replikler: replikler };
 })(window);
