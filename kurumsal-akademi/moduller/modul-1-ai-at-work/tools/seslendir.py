@@ -115,8 +115,12 @@ def manifest_guncelle():
 
 
 def okunus_uygula(metin, sozluk):
+    # Büyük/küçük harfe duyarsız eşleşir; sözcük büyük harfle başlıyorsa karşılığı da büyük harfle başlar.
+    # Not: Python'un \b ve IGNORECASE'i Türkçe İ/ı çiftini özel işlemez; anahtarları küçük harfle yazın.
     for k, v in sozluk.items():
-        metin = re.sub(r"\b%s\b" % re.escape(k), v, metin)
+        def degistir(m, v=v):
+            return v[:1].upper() + v[1:] if m.group(0)[:1].isupper() else v
+        metin = re.sub(r"(?<!\w)%s(?!\w)" % re.escape(k), degistir, metin, flags=re.IGNORECASE)
     # Tırnak ve üç nokta okunuşu etkilemesin
     return metin.replace("“", "").replace("”", "").replace("…", "...")
 

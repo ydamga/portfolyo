@@ -48,6 +48,10 @@ window.SES_LISTESI = {
     "d": "assets/audio/s2-bl-rol.mp3",
     "h": "65dc15af"
   },
+  "s3-b0": {
+    "d": "assets/audio/s3-b0.mp3",
+    "h": "9012410c"
+  },
   "s3-b1": {
     "d": "assets/audio/s3-b1.mp3",
     "h": "3195fae7"
