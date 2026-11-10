@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finora Ön Muhasebe</title>
+<meta name="description" content="Finora — KOBİ'ler için e-fatura, gelir-gider ve nakit akışı yönetimini tek ekranda toplayan ön muhasebe yazılımı.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff; --soft:#f4f6f3; --forest:#0d3b2e; --forest-2:#145240; --lime:#c8f169; --lime-d:#a9d643;
+    --ink:#0f1a16; --text:#3b4742; --muted:#5f6c66; --line:#e3e8e5; --red:#a93a20;
+    --font:"Manrope",system-ui,sans-serif; --r:18px; --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--forest-2);outline-offset:3px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{color:var(--ink);letter-spacing:-.03em;line-height:1.08;font-weight:800}
+  h2{font-size:clamp(32px,4.4vw,52px);margin:14px 0 16px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:6px 14px 6px 6px;border-radius:999px;background:var(--soft);color:var(--forest)}
+  .pill b{background:var(--forest);color:var(--lime);padding:3px 10px;border-radius:999px;font-size:11px}
+  .label{font-size:13px;font-weight:700;color:var(--forest-2);letter-spacing:.06em;text-transform:uppercase}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:12px;font-weight:700;font-size:15px;transition:background .2s,transform .2s var(--ease);border:0;cursor:pointer;font-family:inherit}
+  .btn:active{transform:scale(.97)}
+  .btn-dark{background:var(--forest);color:#fff}
+  .btn-dark:hover{background:var(--forest-2)}
+  .btn-lime{background:var(--lime);color:var(--forest)}
+  .btn-lime:hover{background:var(--lime-d)}
+  .btn-soft{background:var(--soft);color:var(--ink)}
+  .btn-soft:hover{background:#e8ece9}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+  header.scrolled{border-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;color:var(--ink);letter-spacing:-.03em}
+  .logo i{width:32px;height:32px;border-radius:9px;background:var(--forest);display:grid;place-items:center}
+  .nav-links{display:flex;gap:32px;font-size:15px;font-weight:500}
+  .nav-links a:hover{color:var(--forest-2)}
+  .nav-cta{display:flex;gap:10px}
+  .nav-cta .btn{padding:10px 18px;font-size:14px}
+
+  .hero{padding:80px 0 0;text-align:center}
+  .hero h1{font-size:clamp(42px,6.6vw,84px);max-width:960px;margin:26px auto 22px}
+  .hero h1 span{background:linear-gradient(transparent 62%,var(--lime) 62% 92%,transparent 92%)}
+  .hero p{font-size:19px;max-width:620px;margin:0 auto 34px;color:var(--muted)}
+  .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .trust{margin-top:18px;font-size:13px !important;color:var(--muted)}
+
+  .stage{margin-top:64px;background:var(--forest);border-radius:28px 28px 0 0;padding:44px 44px 0;position:relative;overflow:hidden}
+  .stage::before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,105,.22),transparent 65%);left:50%;top:-300px;transform:translateX(-50%)}
+  .app{background:#fff;border-radius:16px 16px 0 0;position:relative;display:grid;grid-template-columns:210px 1fr;text-align:left;box-shadow:0 -10px 50px rgba(0,0,0,.25);min-height:420px}
+  .side{border-right:1px solid var(--line);padding:22px 16px;font-size:14px}
+  .side .logo{font-size:17px;margin-bottom:26px}
+  .side .logo i{width:26px;height:26px;border-radius:7px}
+  .side span{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;color:var(--muted);font-weight:500}
+  .side span.on{background:var(--soft);color:var(--ink);font-weight:700}
+  .side span::before{content:"";width:8px;height:8px;border-radius:3px;background:currentColor;opacity:.4}
+  .main{padding:24px 28px}
+  .main-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+  .main-top strong{font-size:20px;color:var(--ink);font-weight:800;letter-spacing:-.02em}
+  .main-top span{font-size:13px;color:var(--muted);background:var(--soft);padding:6px 12px;border-radius:8px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  .kpi{border:1px solid var(--line);border-radius:14px;padding:16px}
+  .kpi small{font-size:12px;color:var(--muted);font-weight:600}
+  .kpi b{display:block;font-size:24px;color:var(--ink);letter-spacing:-.02em;margin:4px 0;font-variant-numeric:tabular-nums}
+  .kpi em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .up{background:#e6f6d6;color:#2f6510}.down{background:#fde8e3;color:var(--red)}
+  .chart-row{display:grid;grid-template-columns:1.6fr 1fr;gap:14px}
+  .panel{border:1px solid var(--line);border-radius:14px;padding:16px}
+  .ph{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;justify-content:space-between;gap:10px}
+  .ph span{font-weight:500;color:var(--muted)}
+  .legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin:-6px 0 10px}
+  .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:var(--forest)}
+  .legend i.g{background:var(--lime-d)}
+  .bars{display:flex;align-items:flex-end;gap:10px;height:140px}
+  .bars div{flex:1;display:flex;align-items:flex-end;gap:3px;height:100%;position:relative;padding-bottom:18px}
+  .bars i{display:block;flex:1;border-radius:4px 4px 1px 1px;background:var(--forest);transform-origin:bottom;animation:grow 1s var(--ease) both}
+  .bars i.g{background:var(--lime-d)}
+  .bars small{position:absolute;bottom:0;left:0;right:0;font-size:11px;color:var(--muted);text-align:center}
+  @keyframes grow{from{transform:scaleY(0)}}
+  .inv{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .inv:last-child{border:0}
+  .inv b{color:var(--ink);font-weight:600}
+  .inv small{display:block;color:var(--muted);font-size:11px}
+  .st{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
+  .wait{background:#fff3d6;color:#8a5c00}
+
+  .logos{padding:50px 0;border-bottom:1px solid var(--line);text-align:center}
+  .logos p{font-size:14px;color:var(--muted);margin-bottom:24px}
+  .logo-row{display:flex;justify-content:center;gap:52px;flex-wrap:wrap;font-weight:800;font-size:21px;color:var(--muted);letter-spacing:-.02em}
+
+  section{padding:110px 0}
+  .center{text-align:center;max-width:680px;margin:0 auto 60px}
+  .center p{color:var(--muted);font-size:17px}
+
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+  .b{background:var(--soft);border-radius:var(--r);padding:32px;position:relative;overflow:hidden;transition:transform .35s var(--ease)}
+  .b:hover{transform:translateY(-4px)}
+  .b h3{font-size:23px;margin:16px 0 8px}
+  .b p{color:var(--muted);font-size:15px}
+  .b.s4{grid-column:span 4;grid-row:span 2}
+  .b.s2{grid-column:span 2}
+  .b.s3{grid-column:span 3}
+  .b.dark{background:var(--forest);color:rgba(255,255,255,.75)}
+  .b.dark h3{color:#fff;font-size:clamp(26px,3vw,36px)}
+  .b.dark p{color:rgba(255,255,255,.72);max-width:520px}
+  .ic{width:46px;height:46px;border-radius:12px;background:#fff;display:grid;place-items:center}
+  .b.dark .ic{background:var(--lime)}
+  .flow{display:flex;gap:6px;margin-top:28px}
+  .flow span{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.15)}
+  .flow span.on{background:var(--lime)}
+  .flow-labels{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.55);margin-top:8px}
+  .mini{margin-top:24px;border-radius:12px;padding:14px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--forest-2);color:#fff}
+
+  .how{background:var(--soft)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .step{background:#fff;border-radius:var(--r);padding:34px}
+  .step .n{width:40px;height:40px;border-radius:50%;background:var(--forest);color:var(--lime);display:grid;place-items:center;font-weight:800}
+  .step h3{font-size:22px;margin:20px 0 8px}
+  .step p{color:var(--muted);font-size:15px}
+
+  .quote{background:var(--forest);border-radius:28px;padding:70px;display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;color:#fff}
+  .quote blockquote{font-size:clamp(22px,2.6vw,32px);font-weight:600;letter-spacing:-.02em;line-height:1.35}
+  .quote cite{display:flex;gap:14px;align-items:center;margin-top:28px;font-style:normal;font-size:14px;color:rgba(255,255,255,.7)}
+  .quote cite i{width:46px;height:46px;border-radius:50%;background:var(--lime);color:var(--forest);display:grid;place-items:center;font-weight:800;font-style:normal}
+  .quote cite b{display:block;color:#fff}
+  .metrics{display:grid;gap:18px}
+  .metrics div{border-top:1px solid rgba(255,255,255,.15);padding-top:16px}
+  .metrics b{font-size:44px;color:var(--lime);letter-spacing:-.03em;display:block;line-height:1.1}
+  .metrics span{font-size:14px;color:rgba(255,255,255,.7)}
+
+  .switch{display:inline-flex;background:var(--soft);border-radius:12px;padding:5px;margin-top:10px}
+  .switch button{border:0;background:none;padding:10px 20px;border-radius:9px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;color:var(--muted);transition:background .2s,color .2s}
+  .switch button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .switch em{font-style:normal;color:#2f6510;font-size:12px;margin-left:4px}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+  .plan{border:1px solid var(--line);border-radius:22px;padding:34px;display:flex;flex-direction:column}
+  .plan.pop{background:var(--forest);color:rgba(255,255,255,.75);border-color:var(--forest);position:relative;transform:translateY(-12px);box-shadow:0 30px 60px rgba(13,59,46,.25)}
+  .plan.pop h3,.plan.pop .price{color:#fff}
+  .plan .tag{position:absolute;top:22px;right:22px;background:var(--lime);color:var(--forest);font-size:12px;font-weight:800;padding:4px 10px;border-radius:7px}
+  .plan h3{font-size:20px}
+  .plan .desc{font-size:14px;color:var(--muted);margin:6px 0 22px}
+  .plan.pop .desc{color:rgba(255,255,255,.65)}
+  .price{font-size:46px;font-weight:800;color:var(--ink);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+  .price small{font-size:15px;font-weight:500;color:var(--muted);letter-spacing:0}
+  .plan.pop .price small{color:rgba(255,255,255,.65)}
+  .plan ul{list-style:none;margin:24px 0 30px;font-size:15px;flex:1}
+  .plan li{padding:7px 0 7px 28px;position:relative}
+  .plan li::before{content:"";position:absolute;left:0;top:11px;width:16px;height:16px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%230d3b2e' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")}
+  .plan .btn{justify-content:center}
+
+  .faq{max-width:800px;margin:0 auto}
+  details{border-bottom:1px solid var(--line);padding:22px 0}
+  summary{list-style:none;cursor:pointer;font-weight:700;font-size:18px;color:var(--ink);display:flex;justify-content:space-between;gap:20px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:24px;font-weight:500;color:var(--forest-2);transition:transform .25s var(--ease);line-height:1}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{margin-top:12px;color:var(--muted)}
+
+  .cta{background:var(--lime);border-radius:28px;padding:70px;text-align:center}
+  .cta h2{max-width:720px;margin:0 auto 14px}
+  .cta p{color:var(--forest-2);margin-bottom:30px;font-weight:500}
+  .cta form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:520px;margin:0 auto}
+  .cta input{flex:1;min-width:220px;padding:14px 18px;border-radius:12px;border:0;font:inherit;font-size:16px;outline:2px solid transparent}
+  .cta input:focus{outline-color:var(--forest)}
+  .cta .ok{display:none;margin:16px 0 0;font-weight:700;color:var(--forest)}
+
+  footer{padding:80px 0 40px;font-size:14px}
+  .fgrid{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:40px;padding-bottom:50px;border-bottom:1px solid var(--line)}
+  .fgrid h4{font-size:14px;color:var(--ink);margin-bottom:14px}
+  .fgrid a,.fgrid p{display:block;color:var(--muted);margin-bottom:8px}
+  .fgrid a:hover{color:var(--forest-2)}
+  .bottom{padding-top:26px;display:flex;justify-content:space-between;color:var(--muted);flex-wrap:wrap;gap:12px}
+
+  @media (max-width:1000px){
+    .nav-links{display:none}
+    .app{grid-template-columns:1fr}
+    .side{display:none}
+    .chart-row,.quote{grid-template-columns:1fr}
+    .bento{grid-template-columns:1fr 1fr}
+    .b.s4,.b.s3,.b.s2{grid-column:span 2;grid-row:auto}
+    .plans,.steps{grid-template-columns:1fr}
+    .plans{max-width:480px;margin:0 auto}
+    .plan.pop{transform:none}
+    .fgrid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .wrap{padding:0 16px}
+    section{padding:80px 0}
+    .nav-cta .btn-soft{display:none}
+    .stage{padding:20px 12px 0;border-radius:20px 20px 0 0}
+    .main{padding:16px}
+    .kpis{grid-template-columns:1fr}
+    .kpi:nth-child(3){display:none}
+    .quote,.cta{padding:40px 22px}
+    .b{padding:26px}
+    .fgrid{grid-template-columns:1fr}
+    .logo-row{gap:28px;font-size:18px}
+  }
+  @media (prefers-reduced-motion:reduce){.bars i{animation:none}html{scroll-behavior:auto}.b:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo"><i><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13V3h9M3 8h6" stroke="#c8f169" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></i>Finora</a>
+    <nav class="nav-links" aria-label="Ana menü">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#nasil">Nasıl Çalışır</a>
+      <a href="#fiyat">Fiyatlandırma</a>
+      <a href="#sss">SSS</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#basla" class="btn btn-soft">Giriş Yap</a>
+      <a href="#basla" class="btn btn-dark">Ücretsiz Dene</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <span class="pill"><b>YENİ</b> E-arşiv ve e-irsaliye entegrasyonu yayında</span>
+    <h1>İşletmenizin finansı, <span>tek ekranda</span> net.</h1>
+    <p>Finora; e-fatura, gelir-gider, stok ve nakit akışını otomatik toplar. Muhasebecinizle anlık paylaşın, kararlarınızı tahminle değil veriyle verin.</p>
+    <div class="hero-ctas">
+      <a href="#basla" class="btn btn-dark">14 Gün Ücretsiz Başla →</a>
+      <a href="#nasil" class="btn btn-soft">Nasıl Çalışır?</a>
+    </div>
+    <p class="trust">Kredi kartı gerekmez · 2 dakikada kurulum · Özel entegratör altyapısı</p>
+
+    <div class="stage" aria-hidden="true">
+      <div class="app">
+        <aside class="side">
+          <div class="logo"><i><svg width="13" height="13" viewBox="0 0 16 16"><path d="M3 13V3h9M3 8h6" stroke="#c8f169" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></i>Finora</div>
+          <span class="on">Genel Bakış</span><span>Faturalar</span><span>Gelir & Gider</span><span>Cari Hesaplar</span><span>Stok</span><span>Raporlar</span>
+        </aside>
+        <div class="main">
+          <div class="main-top"><strong>Günaydın, Ayşe 👋</strong><span>Kasım 2026</span></div>
+          <div class="kpis">
+            <div class="kpi"><small>Aylık Gelir</small><b>₺486.250</b><em class="up">▲ %18,4</em></div>
+            <div class="kpi"><small>Tahsil Edilecek</small><b>₺92.140</b><em class="down">7 fatura gecikmede</em></div>
+            <div class="kpi"><small>Nakit Durumu</small><b>₺1,24 M</b><em class="up">▲ %6,1</em></div>
+          </div>
+          <div class="chart-row">
+            <div class="panel">
+              <div class="ph">Gelir / Gider <span>Son 6 ay</span></div>
+              <div class="legend"><span><i></i>Gelir</span><span><i class="g"></i>Gider</span></div>
+              <div class="bars">
+                <div><i style="height:52%"></i><i class="g" style="height:30%;animation-delay:.05s"></i><small>Haz</small></div>
+                <div><i style="height:60%;animation-delay:.1s"></i><i class="g" style="height:28%;animation-delay:.15s"></i><small>Tem</small></div>
+                <div><i style="height:48%;animation-delay:.2s"></i><i class="g" style="height:34%;animation-delay:.25s"></i><small>Ağu</small></div>
+                <div><i style="height:66%;animation-delay:.3s"></i><i class="g" style="height:31%;animation-delay:.35s"></i><small>Eyl</small></div>
+                <div><i style="height:70%;animation-delay:.4s"></i><i class="g" style="height:26%;animation-delay:.45s"></i><small>Eki</small></div>
+                <div><i style="height:78%;animation-delay:.5s"></i><i class="g" style="height:29%;animation-delay:.55s"></i><small>Kas</small></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="ph">Son Faturalar <span>Tümü</span></div>
+              <div class="inv"><div><b>Ege Tekstil A.Ş.</b><small>FT-2026-0412</small></div><span class="st up">Ödendi</span></div>
+              <div class="inv"><div><b>Mavi Yapı Ltd.</b><small>FT-2026-0411</small></div><span class="st wait">Bekliyor</span></div>
+              <div class="inv"><div><b>Kara Lojistik</b><small>FT-2026-0409</small></div><span class="st down">Gecikti</span></div>
+              <div class="inv"><div><b>Nil Kozmetik</b><small>FT-2026-0407</small></div><span class="st up">Ödendi</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="logos">
+  <div class="wrap">
+    <p>12.000'den fazla işletme finansını Finora ile yönetiyor</p>
+    <div class="logo-row" aria-hidden="true"><span>tekstilya</span><span>Mavi Yapı</span><span>NOVA·Gıda</span><span>kargoport</span><span>Atölye 34</span><span>Lumen</span></div>
+  </div>
+</div>
+
+<section id="ozellikler">
+  <div class="wrap">
+    <div class="center">
+      <span class="label">Özellikler</span>
+      <h2>Excel tablolarına veda edin</h2>
+      <p>Faturadan tahsilata, stoktan vergiye kadar tüm finansal süreçleriniz birbirine bağlı ve otomatik.</p>
+    </div>
+    <div class="bento">
+      <div class="b s4 dark">
+        <div class="ic"><svg width="22" height="22" fill="none" stroke="#0d3b2e" stroke-width="2" aria-hidden="true"><path d="M5 3h9l4 4v12H5z"/><path d="M8 11h7M8 15h5"/></svg></div>
+        <h3>Tek tıkla e-fatura ve e-arşiv</h3>
+        <p>Faturalarınızı saniyeler içinde kesin, gönderin ve arşivleyin. Gelen faturalar otomatik olarak giderlere işlenir, KDV özetiniz her an hazır.</p>
+        <div class="flow" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+        <div class="flow-labels" aria-hidden="true"><span>Oluşturuldu</span><span>İmzalandı</span><span>İletildi</span><span>Tahsil</span></div>
+        <div class="mini"><span>FT-2026-0413 · Lumen Ajans</span><b style="color:var(--lime)">İletildi ✓</b></div>
+      </div>
+      <div class="b s2">
+        <div class="ic"><svg width="22" height="22" fill="none" stroke="#0d3b2e" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M11 6v5l3 2"/></svg></div>
+        <h3>Otomatik hatırlatma</h3>
+        <p>Vadesi gelen alacaklar için müşterilerinize SMS ve e-posta gider.</p>
+      </div>
+      <div class="b s2">
+        <div class="ic"><svg width="22" height="22" fill="none" stroke="#0d3b2e" stroke-width="2" aria-hidden="true"><path d="M3 17l5-6 4 3 7-9"/></svg></div>
+        <h3>Nakit akışı tahmini</h3>
+        <p>Önümüzdeki 90 günün nakit durumunu tahminlerle görün.</p>
+      </div>
+      <div class="b s3">
+        <div class="ic"><svg width="22" height="22" fill="none" stroke="#0d3b2e" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="16" height="11" rx="2"/><path d="M3 10h16"/></svg></div>
+        <h3>Banka entegrasyonu</h3>
+        <p>Hesap hareketleriniz otomatik eşleşir, mutabakat dakikalar sürer.</p>
+      </div>
+      <div class="b s3">
+        <div class="ic"><svg width="22" height="22" fill="none" stroke="#0d3b2e" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="15" cy="14" r="3"/><path d="M10.5 10l2.5 2"/></svg></div>
+        <h3>Muhasebeci erişimi</h3>
+        <p>Mali müşavirinizi davet edin; belgeler ve beyannameler tek yerde.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nasil" class="how">
+  <div class="wrap">
+    <div class="center">
+      <span class="label">Nasıl Çalışır</span>
+      <h2>Üç adımda hazırsınız</h2>
+      <p>Kurulum için teknik bilgi gerekmez. Ekibimiz ilk verilerinizi aktarmanıza ücretsiz yardımcı olur.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Hesabınızı oluşturun</h3><p>Vergi numaranızla 2 dakikada kaydolun, e-fatura mükellefiyetiniz otomatik algılansın.</p></div>
+      <div class="step"><span class="n">2</span><h3>Bankanızı bağlayın</h3><p>Hesap hareketleriniz güvenli bağlantıyla aktarılır ve faturalarla eşleştirilir.</p></div>
+      <div class="step"><span class="n">3</span><h3>Büyümeye odaklanın</h3><p>Raporlar, hatırlatmalar ve tahminler kendiliğinden çalışır; siz işinize bakın.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="quote">
+      <div>
+        <blockquote>“Ay sonu kapanışı eskiden üç günümüzü alıyordu. Finora ile artık yarım günde bitiyor ve geciken tahsilatlarımız yarıya indi.”</blockquote>
+        <cite><i>AY</i><div><b>Ayşe Yılmaz</b>Finans Müdürü, Atölye 34</div></cite>
+      </div>
+      <div class="metrics">
+        <div><b>%62</b><span>daha hızlı ay sonu kapanışı</span></div>
+        <div><b>%48</b><span>daha az geciken tahsilat</span></div>
+        <div><b>11 saat</b><span>aylık zaman tasarrufu</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fiyat" style="padding-top:0">
+  <div class="wrap">
+    <div class="center">
+      <span class="label">Fiyatlandırma</span>
+      <h2>Her ölçeğe uygun plan</h2>
+      <p>Tüm planlarda 14 gün ücretsiz deneme. İstediğiniz zaman iptal edin.</p>
+      <div class="switch" role="group" aria-label="Faturalama dönemi">
+        <button type="button" data-period="monthly" aria-pressed="true">Aylık</button>
+        <button type="button" data-period="yearly" aria-pressed="false">Yıllık <em>%20 indirim</em></button>
+      </div>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Başlangıç</h3><p class="desc">Serbest çalışanlar ve yeni işletmeler</p>
+        <div class="price" data-m="349" data-y="279"><span class="amt">₺349</span><small> /ay</small></div>
+        <ul><li>Ayda 50 e-fatura</li><li>Gelir-gider takibi</li><li>1 banka hesabı</li><li>Temel raporlar</li></ul>
+        <a href="#basla" class="btn btn-soft">Denemeye Başla</a>
+      </div>
+      <div class="plan pop">
+        <span class="tag">En Popüler</span>
+        <h3>Büyüme</h3><p class="desc">Büyüyen KOBİ'ler için eksiksiz paket</p>
+        <div class="price" data-m="749" data-y="599"><span class="amt">₺749</span><small> /ay</small></div>
+        <ul><li>Sınırsız e-fatura ve e-arşiv</li><li>Stok ve cari yönetimi</li><li>Sınırsız banka hesabı</li><li>Nakit akışı tahmini</li><li>Muhasebeci erişimi</li></ul>
+        <a href="#basla" class="btn btn-lime">Denemeye Başla</a>
+      </div>
+      <div class="plan">
+        <h3>Kurumsal</h3><p class="desc">Çok şubeli ve yüksek hacimli şirketler</p>
+        <div class="price">Özel<small> teklif</small></div>
+        <ul><li>Büyüme planındaki her şey</li><li>Çoklu şube ve şirket</li><li>ERP ve API entegrasyonu</li><li>Özel müşteri temsilcisi</li></ul>
+        <a href="#basla" class="btn btn-soft">Satışla Görüşün</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sss" style="padding-top:0">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:30px"><span class="label">SSS</span><h2>Sıkça sorulan sorular</h2></div>
+    <div class="faq">
+      <details open><summary>Verilerim güvende mi?</summary><p>Tüm veriler Türkiye'deki sertifikalı veri merkezlerinde şifreli olarak saklanır ve KVKK'ya uygun şekilde işlenir.</p></details>
+      <details><summary>Mevcut muhasebe programımdan geçiş yapabilir miyim?</summary><p>Evet. Cari, stok ve fatura verilerinizi Excel veya yaygın programlardan tek seferde aktarabilirsiniz; ekibimiz ücretsiz destek verir.</p></details>
+      <details><summary>E-fatura mükellefi değilim, Finora'yı kullanabilir miyim?</summary><p>Elbette. E-arşiv faturası kesebilir, gelir-gider ve tahsilat takibinizi yapabilirsiniz. Mükellef olduğunuzda tek tıkla geçiş yapılır.</p></details>
+      <details><summary>Deneme süresinden sonra ne olur?</summary><p>14 günün sonunda dilediğiniz planı seçerek devam edebilirsiniz. Seçim yapmazsanız hesabınız ücretlendirilmez, verileriniz 30 gün saklanır.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="basla" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Finansınızı bugün kontrol altına alın</h2>
+      <p>14 gün ücretsiz · Kredi kartı gerekmez · Türkçe destek</p>
+      <form id="signup">
+        <input type="email" required placeholder="İş e-posta adresiniz" aria-label="E-posta" autocomplete="email">
+        <button class="btn btn-dark" type="submit">Ücretsiz Başla</button>
+      </form>
+      <p class="ok" id="ok" role="status">Harika! Aktivasyon bağlantısı e-posta adresinize gönderildi.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a href="#" class="logo" style="margin-bottom:14px"><i><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13V3h9M3 8h6" stroke="#c8f169" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></i>Finora</a><p>KOBİ'ler için akıllı ön muhasebe.</p></div>
+      <div><h4>Ürün</h4><a href="#ozellikler">Özellikler</a><a href="#fiyat">Fiyatlandırma</a><a href="#nasil">Nasıl Çalışır</a></div>
+      <div><h4>Şirket</h4><a href="#">Hakkımızda</a><a href="#">Kariyer</a><a href="#">Blog</a></div>
+      <div><h4>Destek</h4><a href="#sss">SSS</a><a href="#">Yardım Merkezi</a><a href="#">KVKK</a></div>
+    </div>
+    <div class="bottom"><span>© 2026 Finora Teknoloji A.Ş.</span><span>İstanbul'da geliştirildi</span></div>
+  </div>
+</footer>
+
+<script>
+  const SCROLL_THRESHOLD = 10;
+  const hdr = document.getElementById('hdr');
+  const onScroll = () => hdr.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  const switchBtns = document.querySelectorAll('.switch button');
+  switchBtns.forEach(btn => btn.addEventListener('click', () => {
+    switchBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    const yearly = btn.dataset.period === 'yearly';
+    document.querySelectorAll('.price[data-m]').forEach(el => {
+      el.querySelector('.amt').textContent = '₺' + (yearly ? el.dataset.y : el.dataset.m);
+      el.querySelector('small').textContent = yearly ? ' /ay, yıllık ödeme' : ' /ay';
+    });
+  }));
+
+  document.getElementById('signup').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('ok').style.display = 'block';
+    e.target.reset();
+  });
+</script>
+</body>
+</html>

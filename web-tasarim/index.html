@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web Tasarım Çalışmaları</title>
+<meta name="description" content="Hukuk, restoran ve SaaS sektörleri için hazırlanmış üç özgün web sitesi tasarımı.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f5f4f0;--card:#fff;--ink:#1a1a1a;--muted:#5e5e5e;--line:#e6e3dc;--ease:cubic-bezier(.16,1,.3,1)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Manrope",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:80px 24px}
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{font-size:clamp(36px,5vw,60px);letter-spacing:-.03em;line-height:1.05;margin-bottom:14px}
+  p.lead{color:var(--muted);font-size:18px;max-width:560px;margin-bottom:56px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--line);transition:transform .35s var(--ease),box-shadow .35s}
+  a.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.08)}
+  a.card:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+  .thumb{aspect-ratio:4/3;display:grid;place-items:center;font-size:30px;font-weight:800;letter-spacing:-.02em;padding:16px;text-align:center}
+  .body{padding:22px}
+  .body small{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .body h2{font-size:22px;margin:6px 0;letter-spacing:-.02em}
+  .body p{font-size:14px;color:var(--muted)}
+  @media (max-width:860px){.grid{grid-template-columns:1fr}}
+  @media (max-width:600px){body{padding:56px 16px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Web Tasarım<br>Çalışmaları</h1>
+  <p class="lead">Farklı sektörler için hazırlanmış, mobil uyumlu ve tamamen özgün üç web sitesi tasarımı.</p>
+  <div class="grid">
+    <a class="card" href="hukuk/index.html">
+      <div class="thumb" style="background:#0f1b2d;color:#d9c6a5;font-family:Georgia,serif;font-weight:500">Kuzey Hukuk</div>
+      <div class="body"><small>Hukuk · Kurumsal</small><h2>Kuzey Hukuk & Danışmanlık</h2><p>Güven veren klasik tipografi, uzmanlık alanları, ekip ve iletişim formu.</p></div>
+    </a>
+    <a class="card" href="restoran/index.html">
+      <div class="thumb" style="background:#3f4a32;color:#faf5ec;font-family:Georgia,serif;font-style:italic;font-weight:400">Zeytin & Lavanta</div>
+      <div class="body"><small>Yeme-İçme · Restoran</small><h2>Zeytin & Lavanta</h2><p>Sıcak Ege paleti, sekmeli menü, deneyimler ve rezervasyon formu.</p></div>
+    </a>
+    <a class="card" href="saas/index.html">
+      <div class="thumb" style="background:#c8f169;color:#0d3b2e">Finora</div>
+      <div class="body"><small>Teknoloji · SaaS</small><h2>Finora Ön Muhasebe</h2><p>Ürün paneli önizlemesi, bento özellik ızgarası, fiyat tablosu ve SSS.</p></div>
+    </a>
+  </div>
+</main>
+</body>
+</html>

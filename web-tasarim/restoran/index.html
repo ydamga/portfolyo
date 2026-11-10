@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeytin & Lavanta</title>
+<meta name="description" content="Zeytin & Lavanta — Urla'da mevsimlik Ege mutfağı. Menü, rezervasyon ve iletişim.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf5ec; --sand:#f0e6d4; --olive:#3f4a32; --olive-2:#56643f; --terra:#c4683f; --terra-d:#9b4a28;
+    --ink:#2b2a24; --muted:#625b4a; --line:#e3d8c3;
+    --serif:"Fraunces",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--terra);outline-offset:3px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;letter-spacing:-.01em}
+  h2{font-size:clamp(38px,5vw,64px);margin:10px 0 20px}
+  h2 em,h1 em{font-style:italic;color:var(--terra-d)}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--olive-2)}
+  .btn{display:inline-block;padding:15px 30px;border-radius:999px;font-weight:500;font-size:15px;transition:background .25s,color .25s,transform .25s var(--ease);border:1.5px solid transparent;cursor:pointer;font-family:inherit}
+  .btn:active{transform:scale(.97)}
+  .btn-terra{background:var(--terra-d);color:#fff}
+  .btn-terra:hover{background:#8c4325;transform:translateY(-2px)}
+  .btn-line{border-color:var(--olive);color:var(--olive)}
+  .btn-line:hover{background:var(--olive);color:var(--cream)}
+
+  .topbar{background:var(--olive);color:var(--sand);font-size:13px;text-align:center;padding:9px 16px}
+  nav.main{position:sticky;top:0;z-index:40;background:rgba(250,245,236,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:76px}
+  .brand{font-family:var(--serif);font-size:26px;display:flex;align-items:center;gap:10px}
+  .brand svg{color:var(--olive-2)}
+  .links{display:flex;gap:34px;align-items:center;font-size:15px}
+  .links a:not(.btn):hover{color:var(--terra)}
+  .links .btn{padding:11px 22px}
+  .toggle{display:none;background:none;border:0;cursor:pointer;color:var(--ink);padding:6px}
+
+  .hero{padding:70px 0 100px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+  .hero h1{font-size:clamp(52px,7.5vw,104px);margin:18px 0 26px}
+  .hero p{font-size:19px;color:var(--muted);max-width:480px;margin-bottom:36px}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .badges{display:flex;gap:30px;margin-top:48px;flex-wrap:wrap}
+  .badges div{font-size:13px;color:var(--muted)}
+  .badges b{display:block;font-family:var(--serif);font-size:30px;color:var(--ink);font-weight:400}
+  .plate-wrap{position:relative;aspect-ratio:1}
+  .plate-bg{position:absolute;inset:6%;border-radius:50%;background:var(--olive)}
+  .plate{position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 50% 50%,#fffdf8 0 55%,#f3ead8 56% 62%,#fffdf8 63%);box-shadow:0 30px 60px rgba(43,42,36,.35)}
+  .plate svg{position:absolute;inset:0;width:100%;height:100%}
+  .stamp{position:absolute;right:0;top:4%;width:130px;height:130px;animation:spin 22s linear infinite}
+  .stamp text{font-family:var(--sans);font-size:11.5px;letter-spacing:3.2px;font-weight:700;fill:var(--terra)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .chip{position:absolute;left:-4%;bottom:14%;background:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 12px 30px rgba(43,42,36,.12);font-size:13px;display:flex;gap:10px;align-items:center}
+  .chip .dot{width:34px;height:34px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:17px}
+
+  .marquee{background:var(--terra);color:var(--cream);overflow:hidden;padding:20px 0;white-space:nowrap}
+  .marquee-track{display:inline-flex;gap:50px;animation:slide 30s linear infinite;font-family:var(--serif);font-size:28px;font-style:italic}
+  .marquee span::after{content:"✦";margin-left:50px;font-style:normal;font-size:18px;vertical-align:middle;opacity:.7}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  section{padding:110px 0}
+
+  .story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
+  .story-art{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .tile{border-radius:22px;aspect-ratio:3/4;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;color:#fff;font-family:var(--serif);font-size:20px}
+  .tile.t1{background:linear-gradient(160deg,#6d7b52,#3f4a32)}
+  .tile.t2{background:linear-gradient(160deg,#b25a33,#8c4325);margin-top:48px}
+  .tile.t3{background:linear-gradient(160deg,#7a6a98,#54476f);aspect-ratio:16/9;grid-column:span 2}
+  .tile svg{position:absolute;top:18px;right:18px;opacity:.5}
+  .story p{color:var(--muted);font-size:17px;margin-bottom:16px}
+  .sign{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--olive);margin-top:24px}
+  .sign small{display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted)}
+
+  .menu-sec{background:var(--sand)}
+  .menu-head{text-align:center;max-width:620px;margin:0 auto 46px}
+  .menu-head p{color:var(--muted)}
+  .tabs{display:flex;justify-content:center;gap:8px;margin-bottom:50px;flex-wrap:wrap}
+  .tab{padding:11px 24px;border-radius:999px;border:1.5px solid var(--olive);background:transparent;font:inherit;font-size:15px;color:var(--olive);cursor:pointer;transition:background .2s,color .2s}
+  .tab[aria-selected="true"],.tab:hover{background:var(--olive);color:var(--cream)}
+  .dishes{display:grid;grid-template-columns:1fr 1fr;gap:6px 70px;max-width:1000px;margin:0 auto;animation:fade .45s var(--ease)}
+  .dishes[hidden]{display:none}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}}
+  .dish{padding:22px 0;border-bottom:1px dashed #cfc0a3}
+  .dish-top{display:flex;align-items:baseline;gap:12px}
+  .dish h3{font-size:23px}
+  .dish .fill{flex:1;border-bottom:1px dotted #b6a78a;transform:translateY(-5px)}
+  .dish .price{font-family:var(--serif);font-size:21px;color:var(--terra-d);white-space:nowrap}
+  .dish p{font-size:14px;color:var(--muted);margin-top:4px}
+  .dish .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--olive);background:rgba(86,100,63,.12);padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
+  .menu-foot{text-align:center;margin-top:50px;font-size:14px;color:var(--muted)}
+
+  .exp{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:24px;margin-top:50px}
+  .card{background:#fff;border-radius:24px;padding:36px;border:1px solid var(--line);transition:transform .35s var(--ease),box-shadow .35s}
+  .card:first-child{background:var(--olive);color:var(--cream);border-color:var(--olive)}
+  .card:first-child p{color:rgba(250,245,236,.75)}
+  .card:first-child .meta{color:#e9a47e}
+  .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(43,42,36,.1)}
+  .card .ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:24px}
+  .card h3{font-size:28px;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:15px}
+  .card .meta{margin-top:20px;font-size:14px;font-weight:500;color:var(--terra-d)}
+
+  .reserve{background:var(--olive);color:var(--cream);border-radius:36px;margin:0 24px;padding:90px 0}
+  .reserve h2{color:var(--cream)}
+  .reserve h2 em{color:#e9a47e}
+  .res-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:70px}
+  .hours{margin-top:30px}
+  .hours div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(250,245,236,.15);font-size:15px}
+  .hours span:last-child{color:var(--sand);opacity:.85}
+  .res-form{background:var(--cream);color:var(--ink);border-radius:26px;padding:40px;box-shadow:0 30px 60px rgba(0,0,0,.2)}
+  .res-form h3{font-size:30px;margin-bottom:24px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .res-form label{font-size:13px;font-weight:500;display:block}
+  .res-form input,.res-form select,.res-form textarea{width:100%;margin-top:6px;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s}
+  .res-form input:focus,.res-form select:focus,.res-form textarea:focus{border-color:var(--terra)}
+  .full{grid-column:span 2}
+  .res-form .btn{width:100%;margin-top:22px}
+  .ok{display:none;margin-top:16px;padding:14px;border-radius:12px;background:rgba(86,100,63,.12);color:var(--olive);font-size:14px}
+
+  footer{padding:90px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid var(--line)}
+  .foot-grid h4{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive-2);margin-bottom:14px}
+  .foot-grid p,.foot-grid a{display:block;font-size:15px;color:var(--muted);margin-bottom:6px}
+  .foot-grid a:hover{color:var(--terra)}
+  .copy{padding-top:28px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  @media (max-width:960px){
+    .hero-grid,.story-grid,.res-grid{grid-template-columns:1fr;gap:50px}
+    .plate-wrap{max-width:480px;margin:0 auto;width:100%}
+    .dishes,.exp{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .links{position:absolute;top:100%;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:24px;gap:20px;border-bottom:1px solid var(--line);display:none}
+    .links.open{display:flex}
+    .toggle{display:block}
+  }
+  @media (max-width:600px){
+    .wrap{padding:0 16px}
+    section{padding:80px 0}
+    .reserve{margin:0 8px;border-radius:26px;padding:70px 0}
+    .res-form{padding:26px 20px}
+    .fgrid{grid-template-columns:1fr}
+    .full{grid-column:auto}
+    .foot-grid{grid-template-columns:1fr}
+    .stamp{width:96px;height:96px}
+    .chip{left:0}
+    .dish h3{font-size:20px}
+  }
+  @media (prefers-reduced-motion:reduce){.stamp,.marquee-track,.dishes{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="topbar">Bu hafta sonu: Hasat menüsü, 6 tabak ve yerel şarap eşleşmesiyle. Yerler sınırlı.</div>
+
+<nav class="main" aria-label="Ana menü">
+  <div class="wrap nav">
+    <a href="#" class="brand">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14 26V8"/><ellipse cx="9" cy="10" rx="4" ry="2.2" transform="rotate(-35 9 10)"/><ellipse cx="19" cy="14" rx="4" ry="2.2" transform="rotate(35 19 14)"/><ellipse cx="9.5" cy="18" rx="4" ry="2.2" transform="rotate(-35 9.5 18)"/></svg>
+      Zeytin & Lavanta
+    </a>
+    <div class="links" id="links">
+      <a href="#hikaye">Hikayemiz</a>
+      <a href="#menu">Menü</a>
+      <a href="#deneyim">Deneyimler</a>
+      <a href="#rezervasyon">İletişim</a>
+      <a href="#rezervasyon" class="btn btn-terra">Rezervasyon</a>
+    </div>
+    <button class="toggle" id="toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="links"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9h20M3 17h20"/></svg></button>
+  </div>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">Urla · Ege Mutfağı · 2014'ten beri</span>
+      <h1>Ege'nin <em>mevsimi</em>, sofranızda.</h1>
+      <p>Sabah tarladan, öğlen tezgâhtan, akşam tabağınıza. Yerel üreticilerle hazırladığımız menümüz her mevsim yeniden doğar.</p>
+      <div class="hero-ctas">
+        <a href="#rezervasyon" class="btn btn-terra">Masa Ayırt</a>
+        <a href="#menu" class="btn btn-line">Menüyü İncele</a>
+      </div>
+      <div class="badges">
+        <div><b>%85</b>yerel ürün</div>
+        <div><b>22</b>üretici ortak</div>
+        <div><b>4.9★</b>misafir puanı</div>
+      </div>
+    </div>
+    <div class="plate-wrap" aria-hidden="true">
+      <div class="plate-bg"></div>
+      <div class="plate">
+        <svg viewBox="0 0 200 200">
+          <path d="M60 120c10-30 40-50 80-40" stroke="#56643f" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="72" cy="104" rx="11" ry="5" fill="#6d7b52" transform="rotate(-40 72 104)"/>
+          <ellipse cx="92" cy="90" rx="11" ry="5" fill="#56643f" transform="rotate(-20 92 90)"/>
+          <ellipse cx="115" cy="82" rx="11" ry="5" fill="#6d7b52" transform="rotate(-5 115 82)"/>
+          <circle cx="104" cy="118" r="16" fill="#c4683f"/>
+          <circle cx="126" cy="112" r="11" fill="#e08a5c"/>
+          <circle cx="86" cy="132" r="8" fill="#3f4a32"/>
+          <circle cx="120" cy="134" r="6" fill="#3f4a32"/>
+          <circle cx="138" cy="96" r="3" fill="#8a7aa8"/><circle cx="142" cy="102" r="3" fill="#8a7aa8"/><circle cx="136" cy="104" r="3" fill="#a99bc4"/>
+          <path d="M70 140c20 6 50 6 70-6" stroke="#e7c58a" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 6"/>
+        </svg>
+      </div>
+      <svg class="stamp" viewBox="0 0 130 130"><defs><path id="circ" d="M65 65m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs><text><textPath href="#circ">TARLADAN SOFRAYA • MEVSİMLİK MENÜ • </textPath></text><circle cx="65" cy="65" r="6" fill="#c4683f"/></svg>
+      <div class="chip"><span class="dot">🫒</span><div><b>Günün tabağı</b><br>Közde enginar, keçi peyniri</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Zeytinyağlılar</span><span>Odun ateşinde balık</span><span>Ege otları</span><span>Ev yapımı ekşi maya</span><span>Yerel şaraplar</span>
+    <span>Zeytinyağlılar</span><span>Odun ateşinde balık</span><span>Ege otları</span><span>Ev yapımı ekşi maya</span><span>Yerel şaraplar</span>
+  </div>
+</div>
+
+<section id="hikaye" class="story">
+  <div class="wrap story-grid">
+    <div class="story-art" aria-hidden="true">
+      <div class="tile t1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 22V10M12 10c0-4 3-7 7-7 0 4-3 7-7 7zM12 14c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5z"/></svg>Bahçemiz</div>
+      <div class="tile t2"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10z"/></svg>Odun fırını</div>
+      <div class="tile t3"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg>Lavanta bahçesinde akşam yemeği</div>
+    </div>
+    <div>
+      <span class="kicker">Hikayemiz</span>
+      <h2>Bir zeytin ağacının <em>gölgesinde</em> başladı</h2>
+      <p>2014'te Urla'daki eski bir taş evi restorana dönüştürdüğümüzde tek bir hedefimiz vardı: Ege'nin bereketini, olduğu gibi ve mevsiminde sunmak.</p>
+      <p>Bugün sebzelerimizin çoğunu kendi bahçemizden topluyor, balığımızı sabah teknesinden alıyor, ekmeğimizi her gün ekşi mayayla pişiriyoruz.</p>
+      <div class="sign">Şef Deniz Arslan<small>Kurucu & Mutfak Şefi</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="menu-sec">
+  <div class="wrap">
+    <div class="menu-head">
+      <span class="kicker">Sonbahar Menüsü</span>
+      <h2>Bu mevsim <em>sofrada</em></h2>
+      <p>Menümüz, üreticilerimizden gelen ürünlere göre haftalık olarak değişebilir.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Menü kategorileri">
+      <button class="tab" role="tab" aria-selected="true" data-tab="baslangic">Başlangıçlar</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="ana">Ana Yemekler</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="tatli">Tatlılar</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="icecek">İçecekler</button>
+    </div>
+    <div class="dishes" role="tabpanel" data-panel="baslangic">
+      <div class="dish"><div class="dish-top"><h3>Közde Enginar</h3><span class="fill"></span><span class="price">₺340</span></div><p>Keçi peyniri, limon kabuğu, kekik yağı <span class="tag">Vejetaryen</span></p></div>
+      <div class="dish"><div class="dish-top"><h3>Deniz Börülcesi</h3><span class="fill"></span><span class="price">₺260</span></div><p>Sarımsaklı zeytinyağı, kızarmış badem <span class="tag">Vegan</span></p></div>
+      <div class="dish"><div class="dish-top"><h3>Ahtapot Carpaccio</h3><span class="fill"></span><span class="price">₺480</span></div><p>Kapari, narenciye, ince kıyılmış dereotu</p></div>
+      <div class="dish"><div class="dish-top"><h3>Ekşi Maya Ekmek</h3><span class="fill"></span><span class="price">₺140</span></div><p>Erken hasat zeytinyağı ve tuzlu tereyağı ile</p></div>
+      <div class="dish"><div class="dish-top"><h3>Kabak Çiçeği Dolması</h3><span class="fill"></span><span class="price">₺320</span></div><p>Ege otları, kuş üzümü, çam fıstığı <span class="tag">Vegan</span></p></div>
+      <div class="dish"><div class="dish-top"><h3>Levrek Marin</h3><span class="fill"></span><span class="price">₺420</span></div><p>Yeşil elma, nar ekşisi, roka</p></div>
+    </div>
+    <div class="dishes" role="tabpanel" data-panel="ana" hidden>
+      <div class="dish"><div class="dish-top"><h3>Odun Ateşinde Levrek</h3><span class="fill"></span><span class="price">₺720</span></div><p>Közlenmiş sebzeler, limonlu tereyağı sosu</p></div>
+      <div class="dish"><div class="dish-top"><h3>Kuzu İncik</h3><span class="fill"></span><span class="price">₺860</span></div><p>8 saat pişmiş, patlıcan beğendi, kök sebzeler</p></div>
+      <div class="dish"><div class="dish-top"><h3>Karides Güveç</h3><span class="fill"></span><span class="price">₺640</span></div><p>Domates, biber, kaşar ve taze kekik</p></div>
+      <div class="dish"><div class="dish-top"><h3>Mantarlı Risotto</h3><span class="fill"></span><span class="price">₺520</span></div><p>Kuzugöbeği mantar, eski kaşar, trüf yağı <span class="tag">Vejetaryen</span></p></div>
+      <div class="dish"><div class="dish-top"><h3>Ev Yapımı Erişte</h3><span class="fill"></span><span class="price">₺460</span></div><p>Tereyağında adaçayı, ceviz, Ezine peyniri <span class="tag">Vejetaryen</span></p></div>
+      <div class="dish"><div class="dish-top"><h3>Günün Balığı</h3><span class="fill"></span><span class="price">Gramaj</span></div><p>Sabah teknesinden; ızgara ya da tuzda</p></div>
+    </div>
+    <div class="dishes" role="tabpanel" data-panel="tatli" hidden>
+      <div class="dish"><div class="dish-top"><h3>Lavantalı Muhallebi</h3><span class="fill"></span><span class="price">₺240</span></div><p>Bahçemizin lavantası, bal, antep fıstığı</p></div>
+      <div class="dish"><div class="dish-top"><h3>Zeytinyağlı Kek</h3><span class="fill"></span><span class="price">₺220</span></div><p>Portakal kabuğu, ev yapımı kaymak</p></div>
+      <div class="dish"><div class="dish-top"><h3>İncir Tatlısı</h3><span class="fill"></span><span class="price">₺260</span></div><p>Fırında incir, ceviz, keçi sütü dondurması</p></div>
+      <div class="dish"><div class="dish-top"><h3>Sakızlı Dondurma</h3><span class="fill"></span><span class="price">₺200</span></div><p>Damla sakızı, vişne reçeli</p></div>
+    </div>
+    <div class="dishes" role="tabpanel" data-panel="icecek" hidden>
+      <div class="dish"><div class="dish-top"><h3>Urla Bağları Seçkisi</h3><span class="fill"></span><span class="price">₺380 / kadeh</span></div><p>Sommelierimizin haftalık önerisi</p></div>
+      <div class="dish"><div class="dish-top"><h3>Ev Yapımı Limonata</h3><span class="fill"></span><span class="price">₺140</span></div><p>Taze nane ve lavanta şurubu</p></div>
+      <div class="dish"><div class="dish-top"><h3>Rakı Servisi</h3><span class="fill"></span><span class="price">₺620</span></div><p>Yanında beyaz peynir ve kavun</p></div>
+      <div class="dish"><div class="dish-top"><h3>Dibek Kahvesi</h3><span class="fill"></span><span class="price">₺120</span></div><p>Lokum eşliğinde</p></div>
+    </div>
+    <p class="menu-foot">Alerjen bilgisi için lütfen servis ekibimize danışın. Fiyatlara KDV dahildir.</p>
+  </div>
+</section>
+
+<section id="deneyim">
+  <div class="wrap">
+    <span class="kicker">Deneyimler</span>
+    <h2>Sofradan <em>fazlası</em></h2>
+    <div class="exp">
+      <div class="card"><div class="ico" style="background:#56643f">🍷</div><h3>Şefin Masası</h3><p>Mutfağın tam karşısında, 7 tabaklık tadım menüsü ve şarap eşleşmesi. Her tabağı şefin kendisi anlatır.</p><div class="meta">Perşembe – Cumartesi · 8 kişi</div></div>
+      <div class="card"><div class="ico" style="background:#e3e7d8">🌿</div><h3>Bahçe Turu</h3><p>Hasattan önce bahçemizi şefle birlikte gezin, öğle yemeğiyle tamamlayın.</p><div class="meta">Pazar · 10:30</div></div>
+      <div class="card"><div class="ico" style="background:#e8e3f0">🎉</div><h3>Özel Davetler</h3><p>Nişan, doğum günü ve kurumsal yemekler için 60 kişiye kadar özel alan.</p><div class="meta">Size özel menü</div></div>
+    </div>
+  </div>
+</section>
+
+<div id="rezervasyon" class="reserve">
+  <div class="wrap res-grid">
+    <div>
+      <span class="kicker" style="color:var(--sand)">Rezervasyon</span>
+      <h2>Masanız <em>hazır</em> olsun</h2>
+      <p style="opacity:.8;max-width:420px">8 kişiden büyük gruplar için lütfen bizi telefonla arayın.</p>
+      <div class="hours">
+        <div><span>Salı – Perşembe</span><span>18:00 – 23:00</span></div>
+        <div><span>Cuma – Cumartesi</span><span>12:00 – 00:00</span></div>
+        <div><span>Pazar</span><span>10:00 – 22:00</span></div>
+        <div><span>Pazartesi</span><span>Kapalı</span></div>
+      </div>
+      <p style="margin-top:28px;opacity:.85">İskele Mah. Zeytinlik Sok. No: 7, Urla / İzmir<br>+90 (232) 555 14 07</p>
+    </div>
+    <form class="res-form" id="res">
+      <h3>Rezervasyon Yap</h3>
+      <div class="fgrid">
+        <label>Ad Soyad<input required autocomplete="name"></label>
+        <label>Telefon<input required type="tel" autocomplete="tel"></label>
+        <label>Tarih<input required type="date" id="date"></label>
+        <label>Saat
+          <select required><option>18:00</option><option>19:00</option><option selected>20:00</option><option>21:00</option><option>22:00</option></select>
+        </label>
+        <label>Kişi Sayısı
+          <select><option>2 kişi</option><option>3 kişi</option><option>4 kişi</option><option>5 kişi</option><option>6 kişi</option><option>7-8 kişi</option></select>
+        </label>
+        <label>Alan
+          <select><option>Fark etmez</option><option>Bahçe</option><option>İç salon</option><option>Şefin masası</option></select>
+        </label>
+        <label class="full">Not<textarea rows="3" placeholder="Özel gün, alerji vb."></textarea></label>
+      </div>
+      <button class="btn btn-terra" type="submit">Rezervasyonu Onayla</button>
+      <div class="ok" id="ok" role="status">Teşekkürler! Rezervasyon talebiniz alındı, kısa süre içinde SMS ile onaylanacaktır.</div>
+    </form>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="#" class="brand" style="margin-bottom:14px">Zeytin & Lavanta</a><p>Urla'da mevsimlik Ege mutfağı. Tarladan sofraya, 2014'ten beri.</p></div>
+      <div><h4>Ziyaret</h4><p>İskele Mah. Zeytinlik Sok. No: 7</p><p>Urla / İzmir</p></div>
+      <div><h4>İletişim</h4><a href="#rezervasyon">+90 (232) 555 14 07</a><a href="#rezervasyon">merhaba@zeytinlavanta.com</a></div>
+      <div><h4>Takip Edin</h4><a href="#">Instagram</a><a href="#">Bülten</a></div>
+    </div>
+    <div class="copy"><span>© 2026 Zeytin & Lavanta</span><span>Gizlilik · KVKK</span></div>
+  </div>
+</footer>
+
+<script>
+  const links = document.getElementById('links'), toggle = document.getElementById('toggle');
+  toggle.addEventListener('click', () => toggle.setAttribute('aria-expanded', links.classList.toggle('open')));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('[data-panel]');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+    panels.forEach(p => { p.hidden = p.dataset.panel !== tab.dataset.tab; });
+  }));
+
+  const today = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('date').min = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+
+  document.getElementById('res').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('ok').style.display = 'block';
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
