@@ -52,13 +52,11 @@
   .badges b{display:block;font-family:var(--serif);font-size:30px;color:var(--ink);font-weight:400}
   .plate-wrap{position:relative;aspect-ratio:1}
   .plate-bg{position:absolute;inset:6%;border-radius:50%;background:var(--olive)}
-  .menu-card{position:absolute;left:15%;right:15%;top:13%;bottom:11%;background:#fffdf6;border-radius:6px;padding:8% 9%;box-shadow:0 30px 60px rgba(43,42,36,.3);transform:rotate(-4deg);display:flex;flex-direction:column;color:var(--ink)}
-  .menu-card .mc-title{font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);text-align:center}
-  .menu-card .date{text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 0 12px;border-bottom:1px solid var(--line)}
-  .menu-card ol{list-style:none;flex:1;display:flex;flex-direction:column;justify-content:space-around;padding:8px 0}
-  .menu-card li{font-size:clamp(13px,1.25vw,16px);display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--line);padding-bottom:4px}
-  .menu-card li span{color:var(--terra-d);font-family:var(--serif)}
-  .menu-card .sig{text-align:center;font-family:var(--serif);color:var(--olive);font-size:15px}
+  .dish-photo{position:absolute;inset:13%;margin:0;border-radius:50%;overflow:hidden;box-shadow:0 30px 60px rgba(30,32,22,.45),0 0 0 10px rgba(239,241,231,.12)}
+  .dish-photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06)}
+  .dish-tag{position:absolute;left:-2%;bottom:12%;background:#fffdf6;border-radius:16px;padding:12px 18px;box-shadow:0 14px 30px rgba(43,42,36,.16);font-size:13px;line-height:1.35;color:var(--ink)}
+  .dish-tag small{display:block;font-size:12px;color:var(--muted)}
+  .dish-tag b{font-family:var(--serif);font-weight:400;font-size:17px}
   .stamp{position:absolute;right:0;top:2%;width:130px;height:130px;animation:spin 22s linear infinite}
   .stamp text{font-family:var(--sans);font-size:11.5px;letter-spacing:3.2px;font-weight:700;fill:var(--terra-d)}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -154,10 +152,7 @@
     .foot-grid{grid-template-columns:1fr}
     .stamp{width:96px;height:96px}
     .dish h3{font-size:20px}
-    .plate-wrap{aspect-ratio:auto;padding:56px 0}
-    .plate-bg{inset:auto;left:50%;top:50%;width:94%;aspect-ratio:1;transform:translate(-50%,-50%)}
-    .menu-card{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:78%;margin:0 auto;padding:28px 22px;gap:4px}
-    .menu-card ol{gap:8px}
+    .dish-tag{left:0;bottom:4%;padding:10px 14px}
   }
   @media (prefers-reduced-motion:reduce){.stamp,.dishes{animation:none}html{scroll-behavior:auto}}
 </style>
@@ -199,20 +194,11 @@
         <div><b>4.9★</b>misafir puanı</div>
       </div>
     </div>
-    <div class="plate-wrap" aria-hidden="true">
-      <div class="plate-bg"></div>
-      <div class="menu-card">
-        <p class="mc-title">Bu Akşam</p>
-        <p class="date">Hasat Menüsü · 4 tabak</p>
-        <ol>
-          <li>Közde enginar<span>I</span></li>
-          <li>Ahtapot, narenciye<span>II</span></li>
-          <li>Odun ateşinde levrek<span>III</span></li>
-          <li>Lavantalı muhallebi<span>IV</span></li>
-        </ol>
-        <p class="sig">— Şef Deniz</p>
-      </div>
-      <svg class="stamp" viewBox="0 0 130 130"><defs><path id="circ" d="M65 65m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs><text><textPath href="#circ">TARLADAN SOFRAYA • MEVSİMLİK MENÜ • </textPath></text><circle cx="65" cy="65" r="6" fill="#c4683f"/></svg>
+    <div class="plate-wrap">
+      <div class="plate-bg" aria-hidden="true"></div>
+      <figure class="dish-photo"><img src="img/gunun-tabagi.webp" width="900" height="900" alt="Beyaz tabakta közlenmiş enginar, sarımsak ve taze otlar" fetchpriority="high"></figure>
+      <svg class="stamp" viewBox="0 0 130 130" aria-hidden="true"><defs><path id="circ" d="M65 65m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs><text><textPath href="#circ">TARLADAN SOFRAYA • MEVSİMLİK MENÜ • </textPath></text><circle cx="65" cy="65" r="6" fill="#c4683f"/></svg>
+      <p class="dish-tag"><small>Günün tabağı</small><b>Közde enginar</b></p>
     </div>
   </div>
 </section>
@@ -224,9 +210,9 @@
 <section id="hikaye" class="story">
   <div class="wrap story-grid">
     <div class="story-art">
-      <figure class="tile t1"><img src="img/bahce.svg" width="600" height="800" alt="Restoranın sebze bahçesi" loading="lazy"><figcaption>Bahçemiz</figcaption></figure>
-      <figure class="tile t2"><img src="img/firin.svg" width="600" height="800" alt="Mutfaktaki odun fırını" loading="lazy"><figcaption>Odun fırını</figcaption></figure>
-      <figure class="tile t3"><img src="img/lavanta.svg" width="1200" height="675" alt="Lavanta bahçesinde kurulmuş akşam yemeği masası" loading="lazy"><figcaption>Lavanta bahçesinde akşam yemeği</figcaption></figure>
+      <figure class="tile t1"><img src="img/bahce.webp" width="600" height="800" alt="Sıra sıra yeşil sebze tarhları" loading="lazy"><figcaption>Bahçemiz</figcaption></figure>
+      <figure class="tile t2"><img src="img/firin.webp" width="600" height="800" alt="Odun fırınında közleri karıştıran fırıncı" loading="lazy"><figcaption>Odun fırını</figcaption></figure>
+      <figure class="tile t3"><img src="img/lavanta.webp" width="1200" height="675" alt="Gün batımında lavanta tarlası" loading="lazy"><figcaption>Lavanta bahçesi</figcaption></figure>
     </div>
     <div>
       <span class="kicker">Hikayemiz</span>
@@ -341,7 +327,7 @@
       <div><h4>İletişim</h4><a href="#rezervasyon">+90 (232) 555 14 07</a><a href="#rezervasyon">merhaba@zeytinlavanta.com</a></div>
       <div><h4>Takip Edin</h4><a href="#">Instagram</a><a href="#">Bülten</a></div>
     </div>
-    <div class="copy"><span>© 2026 Zeytin & Lavanta</span><span>Gizlilik · KVKK</span></div>
+    <div class="copy"><span>© 2026 Zeytin & Lavanta · Fotoğraflar: <a href="https://unsplash.com/photos/HeqXGxnsnX4" style="display:inline">Markus Winkler</a>, <a href="https://unsplash.com/photos/IBCcvkBCrXw" style="display:inline">DDP</a>, <a href="https://unsplash.com/photos/c1Jp-fo53U8" style="display:inline">Unsplash</a>, <a href="https://unsplash.com/photos/aWWl29-VX7Y" style="display:inline">Unsplash</a></span><span>Gizlilik · KVKK</span></div>
   </div>
 </footer>
 
