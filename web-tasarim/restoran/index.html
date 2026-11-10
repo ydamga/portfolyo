@@ -7,12 +7,12 @@
 <meta name="description" content="Zeytin & Lavanta — Urla'da mevsimlik Ege mutfağı. Menü, rezervasyon ve iletişim.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#faf5ec; --sand:#f0e6d4; --olive:#3f4a32; --olive-2:#56643f; --terra:#c4683f; --terra-d:#9b4a28;
-    --ink:#2b2a24; --muted:#625b4a; --line:#e3d8c3;
-    --serif:"Fraunces",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif;
+    --cream:#eff1e7; --sand:#e3e8d4; --olive:#3f4a32; --olive-2:#56643f; --terra:#c4683f; --terra-d:#9b4a28;
+    --ink:#2b2a24; --muted:#625b4a; --line:#d4dac2;
+    --serif:"Young Serif",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif;
     --ease:cubic-bezier(.16,1,.3,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -23,7 +23,7 @@
   .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
   h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;letter-spacing:-.01em}
   h2{font-size:clamp(38px,5vw,64px);margin:10px 0 20px}
-  h2 em,h1 em{font-style:italic;color:var(--terra-d)}
+  h2 em,h1 em{font-style:normal;color:var(--terra-d)}
   .kicker{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--olive-2)}
   .btn{display:inline-block;padding:15px 30px;border-radius:999px;font-weight:500;font-size:15px;transition:background .25s,color .25s,transform .25s var(--ease);border:1.5px solid transparent;cursor:pointer;font-family:inherit}
   .btn:active{transform:scale(.97)}
@@ -33,7 +33,7 @@
   .btn-line:hover{background:var(--olive);color:var(--cream)}
 
   .topbar{background:var(--olive);color:var(--sand);font-size:13px;text-align:center;padding:9px 16px}
-  nav.main{position:sticky;top:0;z-index:40;background:rgba(250,245,236,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav.main{position:sticky;top:0;z-index:40;background:rgba(239,241,231,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav{display:flex;justify-content:space-between;align-items:center;height:76px}
   .brand{font-family:var(--serif);font-size:26px;display:flex;align-items:center;gap:10px}
   .brand svg{color:var(--olive-2)}
@@ -52,28 +52,33 @@
   .badges b{display:block;font-family:var(--serif);font-size:30px;color:var(--ink);font-weight:400}
   .plate-wrap{position:relative;aspect-ratio:1}
   .plate-bg{position:absolute;inset:6%;border-radius:50%;background:var(--olive)}
-  .plate{position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 50% 50%,#fffdf8 0 55%,#f3ead8 56% 62%,#fffdf8 63%);box-shadow:0 30px 60px rgba(43,42,36,.35)}
-  .plate svg{position:absolute;inset:0;width:100%;height:100%}
-  .stamp{position:absolute;right:0;top:4%;width:130px;height:130px;animation:spin 22s linear infinite}
-  .stamp text{font-family:var(--sans);font-size:11.5px;letter-spacing:3.2px;font-weight:700;fill:var(--terra)}
+  .menu-card{position:absolute;left:15%;right:15%;top:13%;bottom:11%;background:#fffdf6;border-radius:6px;padding:8% 9%;box-shadow:0 30px 60px rgba(43,42,36,.3);transform:rotate(-4deg);display:flex;flex-direction:column;color:var(--ink)}
+  .menu-card .mc-title{font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);text-align:center}
+  .menu-card .date{text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 0 12px;border-bottom:1px solid var(--line)}
+  .menu-card ol{list-style:none;flex:1;display:flex;flex-direction:column;justify-content:space-around;padding:8px 0}
+  .menu-card li{font-size:clamp(13px,1.25vw,16px);display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--line);padding-bottom:4px}
+  .menu-card li span{color:var(--terra-d);font-family:var(--serif)}
+  .menu-card .sig{text-align:center;font-family:var(--serif);color:var(--olive);font-size:15px}
+  .stamp{position:absolute;right:0;top:2%;width:130px;height:130px;animation:spin 22s linear infinite}
+  .stamp text{font-family:var(--sans);font-size:11.5px;letter-spacing:3.2px;font-weight:700;fill:var(--terra-d)}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .chip{position:absolute;left:-4%;bottom:14%;background:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 12px 30px rgba(43,42,36,.12);font-size:13px;display:flex;gap:10px;align-items:center}
-  .chip .dot{width:34px;height:34px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:17px}
 
-  .marquee{background:var(--terra);color:var(--cream);overflow:hidden;padding:20px 0;white-space:nowrap}
-  .marquee-track{display:inline-flex;gap:50px;animation:slide 30s linear infinite;font-family:var(--serif);font-size:28px;font-style:italic}
-  .marquee span::after{content:"✦";margin-left:50px;font-style:normal;font-size:18px;vertical-align:middle;opacity:.7}
-  @keyframes slide{to{transform:translateX(-50%)}}
+  .strip{background:var(--terra-d);color:var(--cream);padding:22px 24px}
+  .strip ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;font-family:var(--serif);font-size:clamp(18px,2vw,24px);max-width:1200px;margin:0 auto}
+  .strip li+li::before{content:"✦";margin-right:18px;font-size:13px;vertical-align:middle;opacity:.7}
 
   section{padding:110px 0}
 
   .story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
   .story-art{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .tile{border-radius:22px;aspect-ratio:3/4;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;color:#fff;font-family:var(--serif);font-size:20px}
+  .tile{border-radius:22px;aspect-ratio:3/4;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;color:#fff;font-family:var(--serif);font-size:20px;margin:0}
+  .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+  .tile:hover img{transform:scale(1.04)}
+  .tile::after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(20,20,15,.6))}
+  .tile figcaption{position:relative;z-index:1}
   .tile.t1{background:linear-gradient(160deg,#6d7b52,#3f4a32)}
   .tile.t2{background:linear-gradient(160deg,#b25a33,#8c4325);margin-top:48px}
   .tile.t3{background:linear-gradient(160deg,#7a6a98,#54476f);aspect-ratio:16/9;grid-column:span 2}
-  .tile svg{position:absolute;top:18px;right:18px;opacity:.5}
   .story p{color:var(--muted);font-size:17px;margin-bottom:16px}
   .sign{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--olive);margin-top:24px}
   .sign small{display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted)}
@@ -87,10 +92,10 @@
   .dishes{display:grid;grid-template-columns:1fr 1fr;gap:6px 70px;max-width:1000px;margin:0 auto;animation:fade .45s var(--ease)}
   .dishes[hidden]{display:none}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}}
-  .dish{padding:22px 0;border-bottom:1px dashed #cfc0a3}
+  .dish{padding:22px 0;border-bottom:1px dashed #bfc6a8}
   .dish-top{display:flex;align-items:baseline;gap:12px}
   .dish h3{font-size:23px}
-  .dish .fill{flex:1;border-bottom:1px dotted #b6a78a;transform:translateY(-5px)}
+  .dish .fill{flex:1;border-bottom:1px dotted #a3ab88;transform:translateY(-5px)}
   .dish .price{font-family:var(--serif);font-size:21px;color:var(--terra-d);white-space:nowrap}
   .dish p{font-size:14px;color:var(--muted);margin-top:4px}
   .dish .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--olive);background:rgba(86,100,63,.12);padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
@@ -102,7 +107,6 @@
   .card:first-child p{color:rgba(250,245,236,.75)}
   .card:first-child .meta{color:#e9a47e}
   .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(43,42,36,.1)}
-  .card .ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:24px}
   .card h3{font-size:28px;margin-bottom:10px}
   .card p{color:var(--muted);font-size:15px}
   .card .meta{margin-top:20px;font-size:14px;font-weight:500;color:var(--terra-d)}
@@ -149,10 +153,13 @@
     .full{grid-column:auto}
     .foot-grid{grid-template-columns:1fr}
     .stamp{width:96px;height:96px}
-    .chip{left:0}
     .dish h3{font-size:20px}
+    .plate-wrap{aspect-ratio:auto;padding:56px 0}
+    .plate-bg{inset:auto;left:50%;top:50%;width:94%;aspect-ratio:1;transform:translate(-50%,-50%)}
+    .menu-card{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:78%;margin:0 auto;padding:28px 22px;gap:4px}
+    .menu-card ol{gap:8px}
   }
-  @media (prefers-reduced-motion:reduce){.stamp,.marquee-track,.dishes{animation:none}html{scroll-behavior:auto}}
+  @media (prefers-reduced-motion:reduce){.stamp,.dishes{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -180,9 +187,8 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="kicker">Urla · Ege Mutfağı · 2014'ten beri</span>
-      <h1>Ege'nin <em>mevsimi</em>, sofranızda.</h1>
-      <p>Sabah tarladan, öğlen tezgâhtan, akşam tabağınıza. Yerel üreticilerle hazırladığımız menümüz her mevsim yeniden doğar.</p>
+      <h1 style="margin-top:0">Ege'nin <em>mevsimi</em>, sofranızda.</h1>
+      <p>Urla'da, 2014'ten beri: sabah tarladan, öğlen tezgâhtan, akşam tabağınıza. Yerel üreticilerle hazırladığımız menümüz her mevsim yeniden doğar.</p>
       <div class="hero-ctas">
         <a href="#rezervasyon" class="btn btn-terra">Masa Ayırt</a>
         <a href="#menu" class="btn btn-line">Menüyü İncele</a>
@@ -195,39 +201,32 @@
     </div>
     <div class="plate-wrap" aria-hidden="true">
       <div class="plate-bg"></div>
-      <div class="plate">
-        <svg viewBox="0 0 200 200">
-          <path d="M60 120c10-30 40-50 80-40" stroke="#56643f" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="72" cy="104" rx="11" ry="5" fill="#6d7b52" transform="rotate(-40 72 104)"/>
-          <ellipse cx="92" cy="90" rx="11" ry="5" fill="#56643f" transform="rotate(-20 92 90)"/>
-          <ellipse cx="115" cy="82" rx="11" ry="5" fill="#6d7b52" transform="rotate(-5 115 82)"/>
-          <circle cx="104" cy="118" r="16" fill="#c4683f"/>
-          <circle cx="126" cy="112" r="11" fill="#e08a5c"/>
-          <circle cx="86" cy="132" r="8" fill="#3f4a32"/>
-          <circle cx="120" cy="134" r="6" fill="#3f4a32"/>
-          <circle cx="138" cy="96" r="3" fill="#8a7aa8"/><circle cx="142" cy="102" r="3" fill="#8a7aa8"/><circle cx="136" cy="104" r="3" fill="#a99bc4"/>
-          <path d="M70 140c20 6 50 6 70-6" stroke="#e7c58a" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 6"/>
-        </svg>
+      <div class="menu-card">
+        <p class="mc-title">Bu Akşam</p>
+        <p class="date">Hasat Menüsü · 4 tabak</p>
+        <ol>
+          <li>Közde enginar<span>I</span></li>
+          <li>Ahtapot, narenciye<span>II</span></li>
+          <li>Odun ateşinde levrek<span>III</span></li>
+          <li>Lavantalı muhallebi<span>IV</span></li>
+        </ol>
+        <p class="sig">— Şef Deniz</p>
       </div>
       <svg class="stamp" viewBox="0 0 130 130"><defs><path id="circ" d="M65 65m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs><text><textPath href="#circ">TARLADAN SOFRAYA • MEVSİMLİK MENÜ • </textPath></text><circle cx="65" cy="65" r="6" fill="#c4683f"/></svg>
-      <div class="chip"><span class="dot">🫒</span><div><b>Günün tabağı</b><br>Közde enginar, keçi peyniri</div></div>
     </div>
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>Zeytinyağlılar</span><span>Odun ateşinde balık</span><span>Ege otları</span><span>Ev yapımı ekşi maya</span><span>Yerel şaraplar</span>
-    <span>Zeytinyağlılar</span><span>Odun ateşinde balık</span><span>Ege otları</span><span>Ev yapımı ekşi maya</span><span>Yerel şaraplar</span>
-  </div>
+<div class="strip">
+  <ul><li>Zeytinyağlılar</li><li>Odun ateşinde balık</li><li>Ege otları</li><li>Ev yapımı ekşi maya</li><li>Yerel şaraplar</li></ul>
 </div>
 
 <section id="hikaye" class="story">
   <div class="wrap story-grid">
-    <div class="story-art" aria-hidden="true">
-      <div class="tile t1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 22V10M12 10c0-4 3-7 7-7 0 4-3 7-7 7zM12 14c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5z"/></svg>Bahçemiz</div>
-      <div class="tile t2"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10z"/></svg>Odun fırını</div>
-      <div class="tile t3"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg>Lavanta bahçesinde akşam yemeği</div>
+    <div class="story-art">
+      <figure class="tile t1"><img src="img/bahce.svg" width="600" height="800" alt="Restoranın sebze bahçesi" loading="lazy"><figcaption>Bahçemiz</figcaption></figure>
+      <figure class="tile t2"><img src="img/firin.svg" width="600" height="800" alt="Mutfaktaki odun fırını" loading="lazy"><figcaption>Odun fırını</figcaption></figure>
+      <figure class="tile t3"><img src="img/lavanta.svg" width="1200" height="675" alt="Lavanta bahçesinde kurulmuş akşam yemeği masası" loading="lazy"><figcaption>Lavanta bahçesinde akşam yemeği</figcaption></figure>
     </div>
     <div>
       <span class="kicker">Hikayemiz</span>
@@ -289,9 +288,9 @@
     <span class="kicker">Deneyimler</span>
     <h2>Sofradan <em>fazlası</em></h2>
     <div class="exp">
-      <div class="card"><div class="ico" style="background:#56643f">🍷</div><h3>Şefin Masası</h3><p>Mutfağın tam karşısında, 7 tabaklık tadım menüsü ve şarap eşleşmesi. Her tabağı şefin kendisi anlatır.</p><div class="meta">Perşembe – Cumartesi · 8 kişi</div></div>
-      <div class="card"><div class="ico" style="background:#e3e7d8">🌿</div><h3>Bahçe Turu</h3><p>Hasattan önce bahçemizi şefle birlikte gezin, öğle yemeğiyle tamamlayın.</p><div class="meta">Pazar · 10:30</div></div>
-      <div class="card"><div class="ico" style="background:#e8e3f0">🎉</div><h3>Özel Davetler</h3><p>Nişan, doğum günü ve kurumsal yemekler için 60 kişiye kadar özel alan.</p><div class="meta">Size özel menü</div></div>
+      <div class="card"><h3>Şefin Masası</h3><p>Mutfağın tam karşısında, 7 tabaklık tadım menüsü ve şarap eşleşmesi. Her tabağı şefin kendisi anlatır.</p><div class="meta">Perşembe – Cumartesi · 8 kişi</div></div>
+      <div class="card"><h3>Bahçe Turu</h3><p>Hasattan önce bahçemizi şefle birlikte gezin, öğle yemeğiyle tamamlayın.</p><div class="meta">Pazar · 10:30</div></div>
+      <div class="card"><h3>Özel Davetler</h3><p>Nişan, doğum günü ve kurumsal yemekler için 60 kişiye kadar özel alan.</p><div class="meta">Size özel menü</div></div>
     </div>
   </div>
 </section>

@@ -7,12 +7,12 @@
 <meta name="description" content="Kuzey Hukuk & Danışmanlık — ticaret, iş, gayrimenkul ve aile hukukunda butik avukatlık hizmeti.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0f1b2d; --ink-2:#1b2a40; --paper:#f6f3ee; --paper-2:#ece6dc;
-    --brass:#a8834c; --brass-ink:#7f5f2e; --brass-soft:#d9c6a5; --text:#2a3240; --muted:#565e6c; --line:#ddd5c8;
-    --serif:"Cormorant Garamond",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+    --ink:#0f1b2d; --ink-2:#1b2a40; --paper:#eef1f4; --paper-2:#e2e7ed;
+    --brass:#a8834c; --brass-ink:#7f5f2e; --brass-soft:#d9c6a5; --text:#2a3240; --muted:#565e6c; --line:#d3dae3;
+    --serif:"Cormorant Garamond",Georgia,serif; --sans:"Libre Franklin",system-ui,sans-serif;
     --wrap:1180px; --ease:cubic-bezier(.16,1,.3,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -32,8 +32,8 @@
   .btn-ghost{border-color:rgba(255,255,255,.35);color:#fff}
   .btn-ghost:hover{border-color:#fff}
 
-  header{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s;color:#fff}
-  header.scrolled{background:rgba(15,27,45,.96);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+  header{position:fixed;inset:0 0 auto;z-index:50;transition:box-shadow .3s;color:#fff;background:var(--ink)}
+  header.scrolled{box-shadow:0 1px 0 rgba(255,255,255,.08),0 10px 30px rgba(0,0,0,.25)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:84px}
   .logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.02em}
   .logo-mark{width:38px;height:38px;border:1px solid var(--brass);display:grid;place-items:center;color:var(--brass);font-size:20px}
@@ -44,23 +44,23 @@
   .menu .btn{padding:11px 20px}
   .burger{display:none;background:none;border:0;color:#fff;cursor:pointer;padding:8px}
 
-  .hero{background:var(--ink);color:#fff;padding:180px 0 0;position:relative;overflow:hidden}
+  .hero{background:var(--ink);color:#fff;padding:150px 0 24px;position:relative;overflow:hidden}
   .hero::before{content:"";position:absolute;right:-12%;top:-10%;width:720px;height:720px;border:1px solid rgba(168,131,76,.25);border-radius:50%}
   .hero::after{content:"";position:absolute;right:-4%;top:6%;width:480px;height:480px;border:1px solid rgba(168,131,76,.15);border-radius:50%}
   .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;position:relative;z-index:1}
-  .hero h1{color:#fff;font-size:clamp(46px,6.4vw,86px);font-weight:500;margin:22px 0 28px}
-  .hero h1 em{color:var(--brass-soft);font-style:italic}
+  .hero h1{color:#fff;font-size:clamp(46px,6.4vw,86px);font-weight:500;margin:0 0 28px;letter-spacing:-.01em}
+  .hero h1 em{color:var(--brass-soft);font-style:normal;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.14em;text-decoration-color:var(--brass)}
   .hero p.lead{font-size:18px;max-width:560px;color:rgba(255,255,255,.72);margin-bottom:40px}
   .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
   .hero-card{align-self:end;background:var(--ink-2);border-top:2px solid var(--brass);padding:32px}
-  .hero-card h2{color:#fff;font-size:26px;margin:8px 0 10px}
+  .hero-card h2{color:#fff;font-size:26px;margin:0 0 10px}
   .hero-card p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:22px}
   .hero-card a{font-size:14px;color:var(--brass-soft);border-bottom:1px solid currentColor;padding-bottom:2px}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border-top:1px solid rgba(255,255,255,.1);position:relative;z-index:1}
-  .stat{padding:34px 0 34px 28px;border-right:1px solid rgba(255,255,255,.1)}
+  .stat{padding:34px 24px 34px 28px;border-right:1px solid rgba(255,255,255,.1)}
   .stat:first-child{padding-left:0}
   .stat:last-child{border-right:0}
-  .stat b{display:block;font-family:var(--serif);font-size:48px;font-weight:500;color:var(--brass-soft);line-height:1;font-variant-numeric:tabular-nums}
+  .stat b{display:block;font-family:var(--serif);font-size:48px;font-weight:500;color:var(--brass-soft);line-height:1;font-variant-numeric:lining-nums tabular-nums}
   .stat span{font-size:13px;color:rgba(255,255,255,.6);letter-spacing:.04em}
 
   section{padding:120px 0}
@@ -93,8 +93,8 @@
   .team{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
   .member:nth-child(even){margin-top:40px}
   .member .portrait{aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-2),var(--ink));display:grid;place-items:center;position:relative;overflow:hidden}
-  .member .portrait span{font-family:var(--serif);font-size:72px;color:var(--brass-soft);font-weight:500;transition:transform .6s var(--ease)}
-  .member:hover .portrait span{transform:scale(1.08)}
+  .member .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+  .member:hover .portrait img{transform:scale(1.05)}
   .member .portrait::after{content:"";position:absolute;inset:14px;border:1px solid rgba(168,131,76,.35)}
   .member h3{font-size:24px;margin-top:20px}
   .member p{font-size:14px;color:var(--muted)}
@@ -153,7 +153,7 @@
   @media (max-width:600px){
     .wrap{padding:0 16px}
     section{padding:80px 0}
-    .hero{padding-top:140px}
+    .hero{padding-top:124px}
     .areas,.team,.steps,.values,.row{grid-template-columns:1fr}
     form{padding:28px 20px}
     .quote-block{padding:48px 28px}
@@ -187,16 +187,14 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">İstanbul · Ankara · 1998'den beri</span>
         <h1>Hukuki süreçlerde <em>güven</em>, stratejide netlik.</h1>
-        <p class="lead">Ticaret, iş, gayrimenkul ve aile hukukunda bireylere ve şirketlere özenli, şeffaf ve sonuç odaklı avukatlık hizmeti sunuyoruz.</p>
+        <p class="lead">1998'den bu yana İstanbul ve Ankara ofislerimizde; ticaret, iş, gayrimenkul ve aile hukukunda bireylere ve şirketlere özenli, şeffaf ve sonuç odaklı avukatlık hizmeti sunuyoruz.</p>
         <div class="hero-ctas">
           <a href="#iletisim" class="btn btn-brass">Ön Görüşme Planlayın →</a>
           <a href="#uzmanlik" class="btn btn-ghost">Uzmanlık Alanlarımız</a>
         </div>
       </div>
       <aside class="hero-card">
-        <span class="eyebrow">Kurumsal Danışmanlık</span>
         <h2>Şirketiniz için sürekli hukuki destek</h2>
         <p>Sözleşme yönetimi, KVKK uyumu ve iş hukuku süreçlerinde aylık danışmanlık paketleri.</p>
         <a href="#iletisim">Detaylı bilgi alın</a>
@@ -256,10 +254,10 @@
       <p>Farklı uzmanlık alanlarından gelen ortaklarımız, karmaşık dosyalarda birlikte çalışır.</p>
     </div>
     <div class="team">
-      <div class="member reveal"><div class="portrait"><span>SK</span></div><h3>Av. Selim Kuzey</h3><p class="tag">Kurucu Ortak</p><p>Ticaret ve şirketler hukuku</p></div>
-      <div class="member reveal"><div class="portrait"><span>EA</span></div><h3>Av. Elif Aydın</h3><p class="tag">Yönetici Ortak</p><p>İş ve sosyal güvenlik hukuku</p></div>
-      <div class="member reveal"><div class="portrait"><span>MT</span></div><h3>Av. Murat Taşkın</h3><p class="tag">Ortak</p><p>Gayrimenkul ve inşaat hukuku</p></div>
-      <div class="member reveal"><div class="portrait"><span>ZÇ</span></div><h3>Av. Zeynep Çelik</h3><p class="tag">Ortak</p><p>Aile, miras ve KVKK</p></div>
+      <div class="member reveal"><div class="portrait"><img src="img/ortak-selim-kuzey.svg" width="800" height="1000" alt="Av. Selim Kuzey portresi" loading="lazy"></div><h3>Av. Selim Kuzey</h3><p class="tag">Kurucu Ortak</p><p>Ticaret ve şirketler hukuku</p></div>
+      <div class="member reveal"><div class="portrait"><img src="img/ortak-elif-aydin.svg" width="800" height="1000" alt="Av. Elif Aydın portresi" loading="lazy"></div><h3>Av. Elif Aydın</h3><p class="tag">Yönetici Ortak</p><p>İş ve sosyal güvenlik hukuku</p></div>
+      <div class="member reveal"><div class="portrait"><img src="img/ortak-murat-taskin.svg" width="800" height="1000" alt="Av. Murat Taşkın portresi" loading="lazy"></div><h3>Av. Murat Taşkın</h3><p class="tag">Ortak</p><p>Gayrimenkul ve inşaat hukuku</p></div>
+      <div class="member reveal"><div class="portrait"><img src="img/ortak-zeynep-celik.svg" width="800" height="1000" alt="Av. Zeynep Çelik portresi" loading="lazy"></div><h3>Av. Zeynep Çelik</h3><p class="tag">Ortak</p><p>Aile, miras ve KVKK</p></div>
     </div>
   </div>
 </section>
